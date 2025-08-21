@@ -1,0 +1,10 @@
+__turbopack_load_page_chunks__("/_error", [
+  "static/chunks/[root-of-the-server]__4a136c65._.js",
+  "static/chunks/04b04_react_54541ea1._.js",
+  "static/chunks/04b04_react-dom_cjs_react-dom_development_fe9be9f2.js",
+  "static/chunks/04b04_react-dom_100d89be._.js",
+  "static/chunks/04b04_0baf891d._.js",
+  "static/chunks/[root-of-the-server]__fcf3d7ca._.js",
+  "static/chunks/cv-tools_frontend_pages__error_5771e187._.js",
+  "static/chunks/cv-tools_frontend_pages__error_6ff1740e._.js"
+])

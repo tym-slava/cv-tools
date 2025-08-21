@@ -1,53 +1,71 @@
-# Next.js & HeroUI Template
+# CV Tools
 
-This is a template for creating applications using Next.js 14 (app directory) and HeroUI (v2).
+Повний стек додаток для створення CV з фронтенд та бекенд частинами.
 
-[Try it on CodeSandbox](https://githubbox.com/heroui-inc/heroui/next-app-template)
+## Структура проекту
 
-## Technologies Used
-
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [HeroUI v2](https://heroui.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
-
-## How to Use
-
-### Use the template with create-next-app
-
-To create a new project based on this template using `create-next-app`, run the following command:
-
-```bash
-npx create-next-app -e https://github.com/heroui-inc/next-app-template
+```
+cv-tools/
+├── frontend/          # Next.js React додаток
+├── backend/           # Node.js Express API
+├── package.json       # Кореневі скрипти для управління
+└── README.md         # Цей файл
 ```
 
-### Install dependencies
+## Швидкий старт
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
-
+### Установка всіх залежностей
 ```bash
-npm install
+npm run install:all
 ```
 
-### Run the development server
-
+### Запуск обох серверів одночасно
 ```bash
 npm run dev
 ```
 
-### Setup pnpm (optional)
+### Окремий запуск
 
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
+#### Фронтенд (Next.js)
 ```bash
-public-hoist-pattern[]=*@heroui/*
+npm run dev:frontend
+# або
+cd frontend && npm run dev
 ```
 
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+#### Бекенд (Express)
+```bash
+npm run dev:backend
+# або  
+cd backend && npm run dev
+```
 
-## License
+## Доступні скрипти
 
-Licensed under the [MIT license](https://github.com/heroui-inc/next-app-template/blob/main/LICENSE).
+- `npm run dev` - Запускає фронтенд та бекенд одночасно
+- `npm run build` - Збирає обидва проекти
+- `npm run start` - Запускає продакшн версії
+- `npm run install:all` - Встановлює залежності для всіх проектів
+- `npm run lint` - Перевіряє код в обох проектах
+
+## Технології
+
+### Фронтенд
+- Next.js 15
+- React 18
+- TypeScript
+- TailwindCSS
+- HeroUI Components
+- Zustand (стан)
+
+### Бекенд
+- Node.js
+- Express.js
+- CORS
+- Dotenv
+
+## Розробка
+
+Кожна частина проекту має свої власні залежності та може розроблятися незалежно.
+
+Дивіться README файли в папках `frontend/` та `backend/` для детальної інформації.
