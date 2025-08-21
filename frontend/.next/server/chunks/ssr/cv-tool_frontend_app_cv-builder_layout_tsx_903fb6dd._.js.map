@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/slavi/projects/cv-tool/frontend/app/cv-builder/layout.tsx"],"sourcesContent":["export default function DocsLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <section className=\"flex flex-col items-center justify-center gap-4 p-4 md:p-10\">\n      <div className=\"inline-block text-center justify-center\">{children}</div>\n    </section>\n  );\n}\n"],"names":[],"mappings":";;;;;AAAe,SAAS,WAAW,EAAE,QAAQ,EAAiC;IAC5E,qBACE,wQAAC;QAAQ,WAAU;kBACjB,cAAA,wQAAC;YAAI,WAAU;sBAA2C;;;;;;;;;;;AAGhE","debugId":null}}]
-}
