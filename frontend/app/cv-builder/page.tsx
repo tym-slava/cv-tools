@@ -28,9 +28,9 @@ export default function CvBuilder() {
         className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 backdrop-blur-sm"
         color="primary"
         size="lg"
-        onPress={() => onOpen()}
         radius="full"
         startContent={<Eye size={20} />}
+        onPress={() => onOpen()}
       >
         <span className="hidden sm:inline">Preview CV</span>
         <span className="sm:hidden">Preview</span>

@@ -102,8 +102,6 @@ const ProfessionalSummary: React.FC = () => {
     });
   };
 
-  console.log(professionalSummary);
-
   return (
     <div className="professional-summary__component">
       <CommonSwitcher
