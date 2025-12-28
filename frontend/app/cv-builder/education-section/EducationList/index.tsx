@@ -15,13 +15,12 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
-import ProfExperienceItemForm from "@/app/cv-builder/prof-experience-section/ProfExperienceItemForm";
-// import CommonSwitcher from "@/app/common-components/CommonSwitcher";
+import EducationItemForm from "@/app/cv-builder/education-section/EducationItemForm";
 import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
-const ProfExperienceList: React.FC = () => {
-  const { profExperience, addProfExperience, reorderProfExperience } = useCvBuilderStore();
+const EducationList: React.FC = () => {
+  const { education, addEducation, reorderEducation } = useCvBuilderStore();
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -34,50 +33,52 @@ const ProfExperienceList: React.FC = () => {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      const oldIndex = profExperience.findIndex((item) => item.id === active.id);
-      const newIndex = profExperience.findIndex((item) => item.id === over?.id);
+      const oldIndex = education.findIndex((item) => item.id === active.id);
+      const newIndex = education.findIndex((item) => item.id === over?.id);
 
-      reorderProfExperience(arrayMove(profExperience, oldIndex, newIndex));
+      reorderEducation(arrayMove(education, oldIndex, newIndex));
     }
   };
 
-  const handleAddExperience = () => {
-    addProfExperience({
-      jobTitle: "",
-      employer: "",
+  const handleAddEducation = () => {
+    addEducation({
+      degree: "",
+      specialty: "",
       startDate: "",
       endDate: "",
+      location: "",
       description: "",
     });
   };
 
   return (
-    <div className="prof-experience-list__component">
+    <div className="education-list__component">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
         <SortableContext
-          items={profExperience.map((item) => item.id)}
+          items={education.map((item) => item.id)}
           strategy={verticalListSortingStrategy}
         >
-          {profExperience.map((experience) => (
-            <ProfExperienceItemForm
-              key={experience.id}
-              id={experience.id}
-              experience={experience}
+          {education.map((edu) => (
+            <EducationItemForm
+              key={edu.id}
+              id={edu.id}
+              education={edu}
             />
           ))}
         </SortableContext>
       </DndContext>
 
       <CommonAddButton
-        buttonText="Add new experience"
-        onClick={handleAddExperience}
+        buttonText="Add education"
+        onClick={handleAddEducation}
       />
     </div>
   );
 };
 
-export default ProfExperienceList;
+export default EducationList;
+

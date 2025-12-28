@@ -13,13 +13,13 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
+  useSortable,
 } from "@dnd-kit/sortable";
-import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import CommonSwitcher from "@/app/common-components/CommonSwitcher";
 import CommonTextArea from "@/app/common-components/CommonTextArea";
-import CommonInfoDropdownItem from "@/app/common-components/CommonInfoDropdownItem";
+import CommonInfoModalItem from "@/app/common-components/CommonInfoModalItem";
 import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
@@ -38,7 +38,11 @@ interface SortableItemProps {
 const SortableItem: React.FC<SortableItemProps> = ({ id, summary }) => {
   const { attributes, listeners, setNodeRef, transform, transition, setActivatorNodeRef } =
     useSortable({ id });
-  const { updateProfessionalSummary } = useCvBuilderStore();
+  const {
+    updateProfessionalSummary,
+    deleteProfessionalSummary,
+    toggleProfessionalSummaryVisibility,
+  } = useCvBuilderStore();
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -49,15 +53,26 @@ const SortableItem: React.FC<SortableItemProps> = ({ id, summary }) => {
     updateProfessionalSummary(id, { description });
   };
 
+  const handleDelete = () => {
+    deleteProfessionalSummary(id);
+  };
+
+  const handleToggleVisibility = () => {
+    toggleProfessionalSummaryVisibility(id);
+  };
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
     >
-      <CommonInfoDropdownItem
+      <CommonInfoModalItem
         title={summary.description || "New Entry"}
         dragHandleProps={{ ref: setActivatorNodeRef, ...listeners }}
+        isVisible={summary.isVisible}
+        onToggleVisibility={handleToggleVisibility}
+        onDelete={handleDelete}
       >
         <div className="my-4">
           <CommonTextArea
@@ -67,7 +82,7 @@ const SortableItem: React.FC<SortableItemProps> = ({ id, summary }) => {
             onChange={handleDescriptionChange}
           />
         </div>
-      </CommonInfoDropdownItem>
+      </CommonInfoModalItem>
     </div>
   );
 };

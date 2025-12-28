@@ -12,7 +12,7 @@ export default function CvBuilder() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <div className="w-fill">
+    <div className="w-full max-w-2xl mx-auto">
       <h1 className={title({ fullWidth: true, class: "mb-4" })}>Build Your Resume in Minutes</h1>
       <div className={subtitle({ class: "max-w-xl text-center mx-auto mb-4" })}>
         Create a professional CV quickly and for free — no signup, no hassle. Just fill in your info
@@ -27,8 +27,8 @@ export default function CvBuilder() {
       <Button
         className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 backdrop-blur-sm"
         color="primary"
+        variant="bordered"
         size="lg"
-        radius="full"
         startContent={<Eye size={20} />}
         onPress={() => onOpen()}
       >

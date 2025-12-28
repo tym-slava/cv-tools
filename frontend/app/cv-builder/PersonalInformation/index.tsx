@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Form, addToast } from "@heroui/react";
 
 import CommonDropzone from "@/app/common-components/CommonDropzone";
@@ -27,10 +27,74 @@ const PersonalInformation: React.FC = () => {
     website: savedPersonalInformation.website,
   });
 
+  // Синхронізація formData з даними зі store
+  useEffect(() => {
+    setFormData({
+      firstName: savedPersonalInformation.firstName,
+      lastName: savedPersonalInformation.lastName,
+      jobTitle: savedPersonalInformation.jobTitle,
+      email: savedPersonalInformation.email,
+      phone: savedPersonalInformation.phone,
+      city: savedPersonalInformation.city,
+      country: savedPersonalInformation.country,
+      website: savedPersonalInformation.website,
+    });
+  }, [savedPersonalInformation]);
+
   // 🖼️ Local state for the image - initialize with the saved image
-  const [localProfileImage, setLocalProfileImage] = useState<FileWithPreview | null>(
-    savedPersonalInformation.profileImage as FileWithPreview | null
-  );
+  const [localProfileImage, setLocalProfileImage] = useState<FileWithPreview | null>(() => {
+    // Create a mock File object from profileImagePreview if it exists
+    if (savedPersonalInformation.profileImagePreview) {
+      const preview = savedPersonalInformation.profileImagePreview.preview;
+
+      // Check if preview is a valid base64 string (not blob URL)
+      if (preview && preview.startsWith("data:")) {
+        const mockFile = new File([""], savedPersonalInformation.profileImagePreview.name, {
+          type: savedPersonalInformation.profileImagePreview.type,
+        }) as FileWithPreview;
+
+        mockFile.preview = preview;
+
+        return mockFile;
+      }
+    }
+
+    return null;
+  });
+
+  // 🧹 Clean up old blob URLs on mount (run only once)
+  useEffect(() => {
+    if (
+      savedPersonalInformation.profileImagePreview?.preview &&
+      savedPersonalInformation.profileImagePreview.preview.startsWith("blob:")
+    ) {
+      // Clear the invalid blob URL from store
+      setPersonalInformation({
+        profileImage: null,
+        profileImagePreview: null,
+      });
+    }
+  }, []);
+
+  // Синхронізація localProfileImage з даними зі store
+  useEffect(() => {
+    if (savedPersonalInformation.profileImagePreview) {
+      const preview = savedPersonalInformation.profileImagePreview.preview;
+
+      if (preview && preview.startsWith("data:")) {
+        const mockFile = new File([""], savedPersonalInformation.profileImagePreview.name, {
+          type: savedPersonalInformation.profileImagePreview.type,
+        }) as FileWithPreview;
+
+        mockFile.preview = preview;
+        setLocalProfileImage(mockFile);
+      } else {
+        setLocalProfileImage(null);
+      }
+    } else {
+      setLocalProfileImage(null);
+    }
+  }, [savedPersonalInformation.profileImagePreview]);
 
   // 📝 Handler for the form fields change (local state)
   const handleInputChange = (field: string, value: string) => {
@@ -75,30 +139,15 @@ const PersonalInformation: React.FC = () => {
     });
   };
 
-  // log global state only when it's changed
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log("Global state only when it's changed:", savedPersonalInformation);
-  }, [savedPersonalInformation]);
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log("Local form:", formData);
-  }, [formData]);
-
   return (
     <div className="personal-information__component">
       <Form onSubmit={handleSubmit}>
         <div className="w-full flex justify-center">
-          <CommonDropzone onFileSelect={handleFileSelect} />
+          <CommonDropzone
+            initialFile={localProfileImage}
+            onFileSelect={handleFileSelect}
+          />
         </div>
-        {/* Image information */}
-        {localProfileImage && (
-          <div className="text-small text-default-500 mb-4 text-center">
-            Selected image: <strong>{localProfileImage.name}</strong>(
-            {(localProfileImage.size / 1024).toFixed(1)} KB)
-          </div>
-        )}
 
         <div className="w-full line-wrapper flex flex-col md:flex-row gap-4 mb-4">
           <Input
