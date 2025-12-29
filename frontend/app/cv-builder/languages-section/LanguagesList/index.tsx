@@ -16,7 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import LanguageItemForm from "@/app/cv-builder/languages-section/LanguageItemForm";
-import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
+import CommonAddButton from "@/common-components/buttons/CommonAddButton";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
 const LanguagesList: React.FC = () => {
@@ -78,8 +78,3 @@ const LanguagesList: React.FC = () => {
 };
 
 export default LanguagesList;
-
-
-
-
-

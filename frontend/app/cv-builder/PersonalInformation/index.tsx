@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Input, Form, addToast } from "@heroui/react";
 
-import CommonDropzone from "@/app/common-components/CommonDropzone";
-import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
+import CommonDropzone from "@/common-components/CommonDropzone";
+import CommonAddButton from "@/common-components/buttons/CommonAddButton";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
 // 🔧 Інтерфейс для файлу з прев'ю

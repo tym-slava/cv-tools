@@ -4,9 +4,8 @@ import { CSS } from "@dnd-kit/utilities";
 import { Input, Form, DatePicker, DateValue } from "@heroui/react";
 import { parseDate } from "@internationalized/date";
 
-import CommonTextArea from "@/app/common-components/CommonTextArea";
-import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
-import CommonInfoModalItem from "@/app/common-components/CommonInfoModalItem";
+import CommonTextArea from "@/common-components/CommonTextArea";
+import CommonInfoModalItem from "@/common-components/CommonInfoModalItem";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
 interface Education {

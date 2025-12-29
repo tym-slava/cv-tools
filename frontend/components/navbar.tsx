@@ -16,7 +16,7 @@ import clsx from "clsx";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import MyLogo from "@/app/common-components/MyLogo";
+import MyLogo from "@/common-components/MyLogo";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -3,9 +3,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Input, Form, Select, SelectItem } from "@heroui/react";
 
-import CommonTextArea from "@/app/common-components/CommonTextArea";
-import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
-import CommonInfoModalItem from "@/app/common-components/CommonInfoModalItem";
+import CommonTextArea from "@/common-components/CommonTextArea";
+import CommonInfoModalItem from "@/common-components/CommonInfoModalItem";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
 interface LanguageItemFormProps {

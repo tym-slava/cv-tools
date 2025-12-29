@@ -4,15 +4,15 @@ import { CSS } from "@dnd-kit/utilities";
 import { Input, Form, DatePicker, DateValue } from "@heroui/react";
 import { parseDate } from "@internationalized/date";
 
-import CommonTextArea from "@/app/common-components/CommonTextArea";
-import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
-import CommonInfoModalItem from "@/app/common-components/CommonInfoModalItem";
+import CommonTextArea from "@/common-components/CommonTextArea";
+import CommonInfoModalItem from "@/common-components/CommonInfoModalItem";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
 interface ProfExperience {
   id: string;
   jobTitle: string;
   employer: string;
+  location: string;
   startDate: string;
   endDate: string;
   description: string;
@@ -33,6 +33,7 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
   const [formData, setFormData] = useState({
     jobTitle: experience?.jobTitle || "",
     employer: experience?.employer || "",
+    location: experience?.location || "",
     startDate:
       experience?.startDate && experience.startDate !== "" ? parseDate(experience.startDate) : null,
     endDate:
@@ -45,6 +46,7 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
     setFormData({
       jobTitle: experience?.jobTitle || "",
       employer: experience?.employer || "",
+      location: experience?.location || "",
       startDate:
         experience?.startDate && experience.startDate !== ""
           ? parseDate(experience.startDate)
@@ -135,6 +137,13 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
               onChange={(value) => handleDateChange("endDate", value)}
             />
           </div>
+          <Input
+            label="Location"
+            type="text"
+            className="w-full mb-4"
+            value={formData.location}
+            onChange={(e) => handleInputChange("location", e.target.value)}
+          />
           <div className="w-full mb-4">
             <CommonTextArea
               labelText="Description"
@@ -142,12 +151,6 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
               tooltipContent="Describe what you did: your responsibilities, the projects you were in charge of, and the improvements or results you achieved. This will help demonstrate your experience to employers."
               initialValue={formData.description}
               onChange={handleDescriptionChange}
-            />
-          </div>
-          <div className="w-full mb-4 flex justify-center">
-            <CommonAddButton
-              type="submit"
-              buttonText="Save"
             />
           </div>
         </Form>

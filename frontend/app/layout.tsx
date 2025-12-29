@@ -8,7 +8,7 @@ import { Providers } from "./providers";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
-import Footer from "@/app/common-components/Footer";
+import Footer from "@/common-components/Footer";
 
 export const metadata: Metadata = {
   title: {

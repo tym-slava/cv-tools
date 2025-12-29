@@ -1,8 +1,8 @@
 "use client";
 
-import HeroSection from "@/app/common-components/sections/hero-section";
-import AdvantagesSection from "@/app/common-components/sections/advantages-section";
-import MainBanner from "@/app/common-components/sections/main-banner";
+import HeroSection from "@/common-components/sections/hero-section";
+import AdvantagesSection from "@/common-components/sections/advantages-section";
+import MainBanner from "@/common-components/sections/main-banner";
 
 export default function Home() {
   return (

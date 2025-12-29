@@ -1,6 +1,6 @@
 import React from "react";
 
-import CommonSwitcher from "@/app/common-components/CommonSwitcher";
+import CommonSwitcher from "@/common-components/CommonSwitcher";
 import LanguagesList from "@/app/cv-builder/languages-section/LanguagesList";
 
 const Languages: React.FC = () => {
@@ -14,8 +14,3 @@ const Languages: React.FC = () => {
 };
 
 export default Languages;
-
-
-
-
-

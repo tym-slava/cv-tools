@@ -17,10 +17,10 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-import CommonSwitcher from "@/app/common-components/CommonSwitcher";
-import CommonTextArea from "@/app/common-components/CommonTextArea";
-import CommonInfoModalItem from "@/app/common-components/CommonInfoModalItem";
-import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
+import CommonSwitcher from "@/common-components/CommonSwitcher";
+import CommonTextArea from "@/common-components/CommonTextArea";
+import CommonInfoModalItem from "@/common-components/CommonInfoModalItem";
+import CommonAddButton from "@/common-components/buttons/CommonAddButton";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
 interface ProfessionalSummary {

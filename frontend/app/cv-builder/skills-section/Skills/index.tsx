@@ -1,6 +1,6 @@
 import React from "react";
 
-import CommonSwitcher from "@/app/common-components/CommonSwitcher";
+import CommonSwitcher from "@/common-components/CommonSwitcher";
 import SkillsList from "@/app/cv-builder/skills-section/SkillsList";
 
 const Skills: React.FC = () => {
@@ -14,8 +14,3 @@ const Skills: React.FC = () => {
 };
 
 export default Skills;
-
-
-
-
-
