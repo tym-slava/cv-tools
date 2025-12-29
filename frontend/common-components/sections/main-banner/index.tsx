@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardHeader, CardFooter, Image } from "@heroui/react";
 // import Image from 'next/image';
 
-import GetStartedBtn from "@/app/common-components/buttons/get-started";
+import GetStartedBtn from "@/common-components/buttons/get-started";
 
 function MainBanner() {
   const width = "100%";
@@ -46,7 +46,7 @@ function MainBanner() {
       <Image
         alt="Card example background"
         className="z-0 w-full h-full scale-125 -translate-y-6 object-cover"
-        src="./home/hr.png"
+        src="/home/hr.png"
         width="100%"
         // height="100%"
       />

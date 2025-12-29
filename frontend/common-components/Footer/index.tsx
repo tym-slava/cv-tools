@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@heroui/link";
 
-import MyLogo from "@/app/common-components/MyLogo";
+import MyLogo from "@/common-components/MyLogo";
 
 function Footer() {
   return (

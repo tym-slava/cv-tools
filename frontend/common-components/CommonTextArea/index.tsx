@@ -1,7 +1,7 @@
 import React from "react";
 import { Textarea } from "@heroui/react";
 
-import CommonToolTip from "@/app/common-components/CommonToolTip";
+import CommonToolTip from "@/common-components/CommonToolTip";
 
 interface CommonTextAreaProps {
   labelText?: string;

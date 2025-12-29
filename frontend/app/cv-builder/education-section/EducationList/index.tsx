@@ -16,7 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import EducationItemForm from "@/app/cv-builder/education-section/EducationItemForm";
-import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
+import CommonAddButton from "@/common-components/buttons/CommonAddButton";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
 const EducationList: React.FC = () => {
@@ -81,4 +81,3 @@ const EducationList: React.FC = () => {
 };
 
 export default EducationList;
-

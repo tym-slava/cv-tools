@@ -17,7 +17,7 @@ import {
 
 import ProfExperienceItemForm from "@/app/cv-builder/prof-experience-section/ProfExperienceItemForm";
 // import CommonSwitcher from "@/app/common-components/CommonSwitcher";
-import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
+import CommonAddButton from "@/common-components/buttons/CommonAddButton";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
 const ProfExperienceList: React.FC = () => {
@@ -45,9 +45,11 @@ const ProfExperienceList: React.FC = () => {
     addProfExperience({
       jobTitle: "",
       employer: "",
+      location: "",
       startDate: "",
       endDate: "",
       description: "",
+      isVisible: true,
     });
   };
 

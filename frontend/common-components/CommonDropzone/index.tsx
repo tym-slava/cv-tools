@@ -12,9 +12,7 @@ interface CommonDropzoneProps {
 }
 
 function CommonDropzone({ onFileSelect, initialFile }: CommonDropzoneProps) {
-  const [files, setFiles] = useState<FileWithPreview[]>(
-    initialFile ? [initialFile] : []
-  );
+  const [files, setFiles] = useState<FileWithPreview[]>(initialFile ? [initialFile] : []);
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],
@@ -47,7 +45,6 @@ function CommonDropzone({ onFileSelect, initialFile }: CommonDropzoneProps) {
     if (initialFile && files.length === 0) {
       setFiles([initialFile]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialFile]);
 
   const thumbs = files.map((file) => (

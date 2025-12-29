@@ -1,4 +1,4 @@
-import GetStartedBtn from "@/app/common-components/buttons/get-started";
+import GetStartedBtn from "@/common-components/buttons/get-started";
 import { title, subtitle } from "@/components/primitives";
 
 function HeroSection() {

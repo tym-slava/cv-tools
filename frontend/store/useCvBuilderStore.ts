@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 // TODO: need to replace all the types to another separate file
 
-// 🔧 Типи для зображення профіля
+// 🔧 Profile image types
 interface ProfileImagePreview {
   name: string;
   size: number;
@@ -37,6 +37,7 @@ interface ProfExperience {
   id: string;
   jobTitle: string;
   employer: string;
+  location: string;
   startDate: string;
   endDate: string;
   description: string;
@@ -75,6 +76,9 @@ interface Skill {
 
 // Main type of CV Builder state
 interface CvBuilderState {
+  // Selected template
+  selectedTemplate: string;
+
   // Selected sections of CV
   selectedSections: string[];
 
@@ -137,6 +141,9 @@ interface CvBuilderState {
 
   // Method to clear the form
   clearPersonalInformation: () => void;
+
+  // Selected template method
+  setSelectedTemplate: (template: string) => void;
 }
 
 // Initial values for personal information
@@ -158,6 +165,7 @@ export const useCvBuilderStore = create<CvBuilderState>()(
   persist(
     (set) => ({
       // Initial state
+      selectedTemplate: "modern",
       selectedSections: ["personal-information"],
       personalInformation: initialPersonalInformation,
       professionalSummary: [],
@@ -340,14 +348,18 @@ export const useCvBuilderStore = create<CvBuilderState>()(
 
       // Method to clear the form
       clearPersonalInformation: () => set({ personalInformation: initialPersonalInformation }),
+
+      // Method to update selected template
+      setSelectedTemplate: (template) => set({ selectedTemplate: template }),
     }),
     {
       name: "cv-builder-storage",
       partialize: (state) => ({
+        selectedTemplate: state.selectedTemplate,
         selectedSections: state.selectedSections,
         personalInformation: {
           ...state.personalInformation,
-          profileImage: null, // File не може бути серіалізований в localStorage
+          profileImage: null, // File cannot be serialized in localStorage
         },
         professionalSummary: state.professionalSummary,
         profExperience: state.profExperience,

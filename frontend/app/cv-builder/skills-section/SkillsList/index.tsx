@@ -16,7 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import SkillItemForm from "@/app/cv-builder/skills-section/SkillItemForm";
-import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
+import CommonAddButton from "@/common-components/buttons/CommonAddButton";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
 const SkillsList: React.FC = () => {

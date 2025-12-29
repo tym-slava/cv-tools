@@ -17,8 +17,8 @@ export const siteConfig = {
       href: "/pricing",
     },
     {
-      label: "Blog",
-      href: "/blog",
+      label: "Suggest a feature",
+      href: "/suggest-feature",
     },
     {
       label: "About",
@@ -39,8 +39,8 @@ export const siteConfig = {
       href: "/pricing",
     },
     {
-      label: "Blog",
-      href: "/blog",
+      label: "Suggest a feature",
+      href: "/suggest-feature",
     },
     {
       label: "About",

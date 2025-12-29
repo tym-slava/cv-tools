@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "@heroui/react";
 
-import CommonSwitcher from "@/app/common-components/CommonSwitcher";
+import CommonSwitcher from "@/common-components/CommonSwitcher";
 
 function SocialLinks() {
   return (
