@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
-import { fontSans } from "@/config/fonts";
+import { fontSans, fontLogo } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import Footer from "@/common-components/Footer";
 
@@ -35,7 +35,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
     >
       <head />
-      <body className={clsx("min-h-screen  font-sans antialiased", fontSans.variable)}>
+      <body
+        className={clsx(
+          "min-h-screen  font-sans antialiased",
+          fontSans.variable,
+          fontLogo.variable
+        )}
+      >
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />

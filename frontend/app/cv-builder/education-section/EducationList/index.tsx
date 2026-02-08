@@ -46,8 +46,10 @@ const EducationList: React.FC = () => {
       specialty: "",
       startDate: "",
       endDate: "",
+      isCurrentlyStudying: false,
       location: "",
       description: "",
+      isVisible: true,
     });
   };
 

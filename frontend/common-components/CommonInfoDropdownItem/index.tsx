@@ -9,7 +9,7 @@ import {
   useDisclosure,
   Tooltip,
 } from "@heroui/react";
-import { Eye, EyeClosed, Grip, Trash2 } from "lucide-react";
+import { Eye, EyeClosed, GripVertical, Trash2 } from "lucide-react";
 
 interface Props {
   title: string;
@@ -44,7 +44,7 @@ const CommonInfoModalItem: React.FC<Props> = ({
           className="triger-button w-fit flex-shrink-0"
           {...dragHandleProps}
         >
-          <Grip className="cursor-grab active:cursor-grabbing" />
+          <GripVertical className="cursor-grab active:cursor-grabbing" />
         </div>
 
         <button

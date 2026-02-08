@@ -2,7 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .font-logo {
+    font-family: var(--font-logo);
+  }
+}
+
+/* Fix for html2pdf.js rendering issues */
+img {
+  display: unset !important;
+}
+
 html.light {
-  --background: #a5f3fc
-;
+  --background: #a5f3fc;
+}
+
+/* Quill Editor Customization */
+.quill-editor .ql-container {
+  border-top-left-radius: 18px;
+  border-top-right-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  min-height: 150px;
+}
+
+.quill-editor .ql-editor {
+  min-height: 150px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.quill-editor .ql-editor.ql-blank::before {
+  color: #9ca3af;
+  font-style: normal;
+}
+
+.quill-editor .ql-toolbar {
+  border-top-left-radius: 18px;
+  border-top-right-radius: 8px;
+  border-color: #e5e7eb;
+  background: #f9fafb;
+}
+
+.quill-editor .ql-container {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-color: #e5e7eb;
+}
+
+/* Quill content in CV templates */
+.cv-preview-container h2,
+.cv-preview-container h3 {
+  font-weight: 600;
+  margin: 0.5em 0;
+}
+
+.cv-preview-container h2 {
+  font-size: 1.25em;
+}
+
+.cv-preview-container h3 {
+  font-size: 1.1em;
+}
+
+.cv-preview-container strong {
+  font-weight: 600;
+}
+
+.cv-preview-container em {
+  font-style: italic;
+}
+
+.cv-preview-container u {
+  text-decoration: underline;
+}
+
+.cv-preview-container s {
+  text-decoration: line-through;
+}
+
+.cv-preview-container ol,
+.cv-preview-container ul {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+.cv-preview-container ol {
+  list-style-type: decimal;
+}
+
+.cv-preview-container ul {
+  list-style-type: disc;
+}
+
+.cv-preview-container li {
+  margin: 0.25em 0;
+}
+
+.cv-preview-container p {
+  margin: 0.5em 0;
 }

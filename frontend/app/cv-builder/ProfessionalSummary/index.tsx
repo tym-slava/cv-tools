@@ -21,14 +21,7 @@ import CommonSwitcher from "@/common-components/CommonSwitcher";
 import CommonTextArea from "@/common-components/CommonTextArea";
 import CommonInfoModalItem from "@/common-components/CommonInfoModalItem";
 import CommonAddButton from "@/common-components/buttons/CommonAddButton";
-import { useCvBuilderStore } from "@/store/useCvBuilderStore";
-
-interface ProfessionalSummary {
-  id: string;
-  title: string;
-  description: string;
-  isVisible: boolean;
-}
+import { useCvBuilderStore, type ProfessionalSummary } from "@/store/useCvBuilderStore";
 
 interface SortableItemProps {
   id: string;
@@ -43,6 +36,17 @@ const SortableItem: React.FC<SortableItemProps> = ({ id, summary }) => {
     deleteProfessionalSummary,
     toggleProfessionalSummaryVisibility,
   } = useCvBuilderStore();
+
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  // Автоматически открываем модалку для новых элементов
+  React.useEffect(() => {
+    if (summary.isNew) {
+      setIsModalOpen(true);
+      // Убираем флаг isNew после открытия
+      updateProfessionalSummary(id, { isNew: false });
+    }
+  }, [summary.isNew, id, updateProfessionalSummary]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -61,6 +65,20 @@ const SortableItem: React.FC<SortableItemProps> = ({ id, summary }) => {
     toggleProfessionalSummaryVisibility(id);
   };
 
+  // Извлекаем plain text из HTML для отображения в заголовке
+  const getPlainText = (html: string) => {
+    const tempDiv = document.createElement("div");
+
+    tempDiv.innerHTML = html;
+
+    return tempDiv.textContent || tempDiv.innerText || "New Entry";
+  };
+
+  const displayTitle = summary.description
+    ? getPlainText(summary.description).substring(0, 50) +
+      (getPlainText(summary.description).length > 50 ? "..." : "")
+    : "New Entry";
+
   return (
     <div
       ref={setNodeRef}
@@ -68,9 +86,11 @@ const SortableItem: React.FC<SortableItemProps> = ({ id, summary }) => {
       {...attributes}
     >
       <CommonInfoModalItem
-        title={summary.description || "New Entry"}
+        title={displayTitle}
+        isOpen={isModalOpen}
         dragHandleProps={{ ref: setActivatorNodeRef, ...listeners }}
         isVisible={summary.isVisible}
+        onOpenChange={setIsModalOpen}
         onToggleVisibility={handleToggleVisibility}
         onDelete={handleDelete}
       >
@@ -143,10 +163,12 @@ const ProfessionalSummary: React.FC = () => {
         </SortableContext>
       </DndContext>
 
-      <CommonAddButton
-        buttonText="Add new summary"
-        onClick={handleAddSummary}
-      />
+      <div className="w-full mb-4 flex justify-end">
+        <CommonAddButton
+          buttonText="Add new summary"
+          onClick={handleAddSummary}
+        />
+      </div>
     </div>
   );
 };

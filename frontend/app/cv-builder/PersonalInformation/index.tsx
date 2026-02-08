@@ -220,7 +220,7 @@ const PersonalInformation: React.FC = () => {
           />
         </div>
 
-        <div className="w-full mb-4 flex justify-center">
+        <div className="w-full mb-4 flex justify-end">
           <CommonAddButton
             type="submit"
             buttonText="Save"

@@ -69,10 +69,12 @@ const LanguagesList: React.FC = () => {
         </SortableContext>
       </DndContext>
 
-      <CommonAddButton
-        buttonText="Add language"
-        onClick={handleAddLanguage}
-      />
+      <div className="w-full mb-4 flex justify-end">
+        <CommonAddButton
+          buttonText="Add language"
+          onClick={handleAddLanguage}
+        />
+      </div>
     </div>
   );
 };

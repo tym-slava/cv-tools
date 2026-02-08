@@ -15,6 +15,7 @@ interface LanguageItemFormProps {
     level: string;
     additionalInfo: string;
     isVisible?: boolean;
+    isNew?: boolean;
   };
 }
 
@@ -33,6 +34,8 @@ const LanguageItemForm: React.FC<LanguageItemFormProps> = ({ id, language }) => 
     useSortable({ id });
   const { updateLanguage, deleteLanguage, toggleLanguageVisibility } = useCvBuilderStore();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [formData, setFormData] = useState({
     language: language?.language || "",
     level: language?.level || "",
@@ -47,6 +50,15 @@ const LanguageItemForm: React.FC<LanguageItemFormProps> = ({ id, language }) => 
       additionalInfo: language?.additionalInfo || "",
     });
   }, [language]);
+
+  // Автоматически открываем модалку для новых элементов
+  useEffect(() => {
+    if (language?.isNew) {
+      setIsModalOpen(true);
+      // Убираем флаг isNew после открытия
+      updateLanguage(id, { isNew: false });
+    }
+  }, [language?.isNew, id, updateLanguage]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -85,8 +97,10 @@ const LanguageItemForm: React.FC<LanguageItemFormProps> = ({ id, language }) => 
     >
       <CommonInfoModalItem
         title={language?.language || "New Entry"}
+        isOpen={isModalOpen}
         dragHandleProps={{ ref: setActivatorNodeRef, ...listeners }}
         isVisible={language?.isVisible ?? true}
+        onOpenChange={setIsModalOpen}
         onToggleVisibility={handleToggleVisibility}
         onDelete={handleDelete}
       >
