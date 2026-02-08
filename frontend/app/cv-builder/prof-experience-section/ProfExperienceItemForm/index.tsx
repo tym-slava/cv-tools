@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Input, Form, DatePicker, DateValue } from "@heroui/react";
+import { Input, Form, DateValue } from "@heroui/react";
 import { parseDate } from "@internationalized/date";
 
 import CommonTextArea from "@/common-components/CommonTextArea";
 import CommonInfoModalItem from "@/common-components/CommonInfoModalItem";
-import { useCvBuilderStore } from "@/store/useCvBuilderStore";
-
-interface ProfExperience {
-  id: string;
-  jobTitle: string;
-  employer: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  isVisible: boolean;
-}
+import DateRangePicker from "@/common-components/DateRangePicker";
+import { useCvBuilderStore, type ProfExperience } from "@/store/useCvBuilderStore";
 
 interface ProfExperienceItemFormProps {
   id: string;
@@ -30,6 +20,8 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
   const { updateProfExperience, deleteProfExperience, toggleProfExperienceVisibility } =
     useCvBuilderStore();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [formData, setFormData] = useState({
     jobTitle: experience?.jobTitle || "",
     employer: experience?.employer || "",
@@ -38,6 +30,7 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
       experience?.startDate && experience.startDate !== "" ? parseDate(experience.startDate) : null,
     endDate:
       experience?.endDate && experience.endDate !== "" ? parseDate(experience.endDate) : null,
+    isCurrentlyWorking: experience?.isCurrentlyWorking || false,
     description: experience?.description || "",
   });
 
@@ -53,9 +46,19 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
           : null,
       endDate:
         experience?.endDate && experience.endDate !== "" ? parseDate(experience.endDate) : null,
+      isCurrentlyWorking: experience?.isCurrentlyWorking || false,
       description: experience?.description || "",
     });
   }, [experience]);
+
+  // Автоматически открываем модалку для новых элементов
+  useEffect(() => {
+    if (experience?.isNew) {
+      setIsModalOpen(true);
+      // Убираем флаг isNew после открытия
+      updateProfExperience(id, { isNew: false });
+    }
+  }, [experience?.isNew, id, updateProfExperience]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -70,6 +73,18 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
   const handleDateChange = (field: "startDate" | "endDate", value: DateValue | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     updateProfExperience(id, { [field]: value?.toString() || "" });
+  };
+
+  const handlePresentChange = (isPresent: boolean) => {
+    setFormData((prev) => ({
+      ...prev,
+      isCurrentlyWorking: isPresent,
+      endDate: isPresent ? null : prev.endDate,
+    }));
+    updateProfExperience(id, {
+      isCurrentlyWorking: isPresent,
+      endDate: isPresent ? "" : formData.endDate?.toString() || "",
+    });
   };
 
   const handleDescriptionChange = (description: string) => {
@@ -103,8 +118,10 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
     >
       <CommonInfoModalItem
         title={experience?.jobTitle || "New Entry"}
+        isOpen={isModalOpen}
         dragHandleProps={{ ref: setActivatorNodeRef, ...listeners }}
         isVisible={experience?.isVisible ?? true}
+        onOpenChange={setIsModalOpen}
         onToggleVisibility={handleToggleVisibility}
         onDelete={handleDelete}
       >
@@ -123,18 +140,14 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
             value={formData.employer}
             onChange={(e) => handleInputChange("employer", e.target.value)}
           />
-          <div className="date-picker-wrapper w-full flex flex-row gap-4 mb-4">
-            <DatePicker
-              label="Start Date"
-              className="w-full"
-              value={formData.startDate}
-              onChange={(value) => handleDateChange("startDate", value)}
-            />
-            <DatePicker
-              label="End Date"
-              className="w-full"
-              value={formData.endDate}
-              onChange={(value) => handleDateChange("endDate", value)}
+          <div className="mb-4 w-full">
+            <DateRangePicker
+              startDate={formData.startDate}
+              endDate={formData.endDate}
+              isPresent={formData.isCurrentlyWorking}
+              onStartDateChange={(value) => handleDateChange("startDate", value)}
+              onEndDateChange={(value) => handleDateChange("endDate", value)}
+              onPresentChange={handlePresentChange}
             />
           </div>
           <Input

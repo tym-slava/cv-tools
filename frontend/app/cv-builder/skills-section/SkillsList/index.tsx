@@ -69,10 +69,12 @@ const SkillsList: React.FC = () => {
         </SortableContext>
       </DndContext>
 
-      <CommonAddButton
-        buttonText="Add skill"
-        onClick={handleAddSkill}
-      />
+      <div className="w-full mb-4 flex justify-end">
+        <CommonAddButton
+          buttonText="Add skill"
+          onClick={handleAddSkill}
+        />
+      </div>
     </div>
   );
 };

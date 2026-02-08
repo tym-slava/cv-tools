@@ -17,6 +17,7 @@ import { Plus } from "lucide-react";
 import { contentList } from "./contentList";
 
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
+import ComingSoonLabel from "@/common-components/labels/ComingSoonLabel";
 
 function AddCvContent() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -59,21 +60,25 @@ function AddCvContent() {
                   {contentList.map((content) => (
                     <Card
                       key={content.key}
-                      isPressable
+                      isPressable={!content.isDisabled}
+                      isDisabled={content.isDisabled}
                       tabIndex={0}
-                      aria-label={`Добавить секцию ${content.title}`}
-                      className="w-full sm:max-w-[340px] rounded-xl shadow-md p-2 sm:p-4 hover:scale-105 hover:shadow-lg transition-all duration-200 cursor-pointer border border-transparent dark:border-white"
+                      aria-label={`Add section ${content.title}`}
+                      className="w-full sm:max-w-[340px] rounded-xl shadow-md p-2 sm:p-4 hover:scale-105 hover:shadow-lg transition-all duration-200 cursor-pointer border border-transparent dark:border-white relative"
                       onPress={() => {
                         handleAddSection(content.key);
                         onClose();
                       }}
                     >
+                      <div className="absolute top-1 right-0">
+                        {content.comingSoon && <ComingSoonLabel />}
+                      </div>
                       <CardHeader className="flex gap-3">
                         <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded bg-zinc-100 text-zinc-700">
                           {content.icon}
                         </div>
                         <div className="flex flex-col">
-                          <h3 className="text-base sm:text-lg font-bold">{content.title}</h3>
+                          <h3 className="text-base sm:text-[15px] font-bold">{content.title}</h3>
                         </div>
                       </CardHeader>
                       <Divider />

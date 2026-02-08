@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Input, Form, DatePicker, DateValue } from "@heroui/react";
+import { Input, Form, DateValue } from "@heroui/react";
 import { parseDate } from "@internationalized/date";
 
 import CommonTextArea from "@/common-components/CommonTextArea";
 import CommonInfoModalItem from "@/common-components/CommonInfoModalItem";
-import { useCvBuilderStore } from "@/store/useCvBuilderStore";
-
-interface Education {
-  id: string;
-  degree: string;
-  specialty: string;
-  startDate: string;
-  endDate: string;
-  location: string;
-  description: string;
-  isVisible: boolean;
-}
+import DateRangePicker from "@/common-components/DateRangePicker";
+import { useCvBuilderStore, type Education } from "@/store/useCvBuilderStore";
 
 interface EducationItemFormProps {
   id: string;
@@ -29,12 +19,15 @@ const EducationItemForm: React.FC<EducationItemFormProps> = ({ id, education }) 
     useSortable({ id });
   const { updateEducation, deleteEducation, toggleEducationVisibility } = useCvBuilderStore();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [formData, setFormData] = useState({
     degree: education?.degree || "",
     specialty: education?.specialty || "",
     startDate:
       education?.startDate && education.startDate !== "" ? parseDate(education.startDate) : null,
     endDate: education?.endDate && education.endDate !== "" ? parseDate(education.endDate) : null,
+    isCurrentlyStudying: education?.isCurrentlyStudying || false,
     location: education?.location || "",
     description: education?.description || "",
   });
@@ -47,10 +40,20 @@ const EducationItemForm: React.FC<EducationItemFormProps> = ({ id, education }) 
       startDate:
         education?.startDate && education.startDate !== "" ? parseDate(education.startDate) : null,
       endDate: education?.endDate && education.endDate !== "" ? parseDate(education.endDate) : null,
+      isCurrentlyStudying: education?.isCurrentlyStudying || false,
       location: education?.location || "",
       description: education?.description || "",
     });
   }, [education]);
+
+  // Автоматически открываем модалку для новых элементов
+  useEffect(() => {
+    if (education?.isNew) {
+      setIsModalOpen(true);
+      // Убираем флаг isNew после открытия
+      updateEducation(id, { isNew: false });
+    }
+  }, [education?.isNew, id, updateEducation]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -65,6 +68,18 @@ const EducationItemForm: React.FC<EducationItemFormProps> = ({ id, education }) 
   const handleDateChange = (field: "startDate" | "endDate", value: DateValue | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     updateEducation(id, { [field]: value?.toString() || "" });
+  };
+
+  const handlePresentChange = (isPresent: boolean) => {
+    setFormData((prev) => ({
+      ...prev,
+      isCurrentlyStudying: isPresent,
+      endDate: isPresent ? null : prev.endDate,
+    }));
+    updateEducation(id, {
+      isCurrentlyStudying: isPresent,
+      endDate: isPresent ? "" : formData.endDate?.toString() || "",
+    });
   };
 
   const handleDescriptionChange = (description: string) => {
@@ -98,8 +113,10 @@ const EducationItemForm: React.FC<EducationItemFormProps> = ({ id, education }) 
     >
       <CommonInfoModalItem
         title={education?.degree || "New Entry"}
+        isOpen={isModalOpen}
         dragHandleProps={{ ref: setActivatorNodeRef, ...listeners }}
         isVisible={education?.isVisible ?? true}
+        onOpenChange={setIsModalOpen}
         onToggleVisibility={handleToggleVisibility}
         onDelete={handleDelete}
       >
@@ -125,18 +142,15 @@ const EducationItemForm: React.FC<EducationItemFormProps> = ({ id, education }) 
             value={formData.location}
             onChange={(e) => handleInputChange("location", e.target.value)}
           />
-          <div className="date-picker-wrapper w-full flex flex-row gap-4 mb-4">
-            <DatePicker
-              label="Start Date"
-              className="w-full"
-              value={formData.startDate}
-              onChange={(value) => handleDateChange("startDate", value)}
-            />
-            <DatePicker
-              label="End Date"
-              className="w-full"
-              value={formData.endDate}
-              onChange={(value) => handleDateChange("endDate", value)}
+          <div className="mb-4 w-full">
+            <DateRangePicker
+              startDate={formData.startDate}
+              endDate={formData.endDate}
+              isPresent={formData.isCurrentlyStudying}
+              presentLabel="Currently studying here"
+              onStartDateChange={(value) => handleDateChange("startDate", value)}
+              onEndDateChange={(value) => handleDateChange("endDate", value)}
+              onPresentChange={handlePresentChange}
             />
           </div>
           <div className="w-full mb-4">

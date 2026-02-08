@@ -9,7 +9,7 @@ import {
   useDisclosure,
   Tooltip,
 } from "@heroui/react";
-import { Eye, EyeClosed, Grip, Trash2 } from "lucide-react";
+import { Eye, EyeClosed, GripVertical, Trash2 } from "lucide-react";
 
 interface Props {
   title: string;
@@ -18,6 +18,8 @@ interface Props {
   onDelete?: () => void;
   isVisible?: boolean;
   onToggleVisibility?: () => void;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
 const CommonInfoModalItem: React.FC<Props> = ({
@@ -27,13 +29,26 @@ const CommonInfoModalItem: React.FC<Props> = ({
   onDelete,
   isVisible = true,
   onToggleVisibility,
+  isOpen: externalIsOpen,
+  onOpenChange: externalOnOpenChange,
 }) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const disclosure = useDisclosure();
+
+  // Используем внешнее управление, если передано, иначе внутреннее
+  const isOpen = externalIsOpen !== undefined ? externalIsOpen : disclosure.isOpen;
+  const onOpen = externalOnOpenChange ? () => externalOnOpenChange(true) : disclosure.onOpen;
+  const handleOpenChange = () => {
+    if (externalOnOpenChange) {
+      externalOnOpenChange(!isOpen);
+    } else {
+      disclosure.onOpenChange();
+    }
+  };
 
   const handleDelete = () => {
     if (onDelete) {
       onDelete();
-      onOpenChange();
+      handleOpenChange();
     }
   };
 
@@ -44,7 +59,7 @@ const CommonInfoModalItem: React.FC<Props> = ({
           className="triger-button w-fit flex-shrink-0"
           {...dragHandleProps}
         >
-          <Grip className="cursor-grab active:cursor-grabbing" />
+          <GripVertical className="cursor-grab active:cursor-grabbing" />
         </div>
 
         <button
@@ -123,7 +138,7 @@ const CommonInfoModalItem: React.FC<Props> = ({
           base: "max-h-[90vh]",
           body: "py-6",
         }}
-        onOpenChange={onOpenChange}
+        onOpenChange={handleOpenChange}
       >
         <ModalContent>
           {(onClose) => (

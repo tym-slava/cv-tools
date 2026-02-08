@@ -2,11 +2,21 @@
 import React from "react";
 import { Button, useDisclosure } from "@heroui/react";
 import { Eye } from "lucide-react";
+import dynamic from "next/dynamic";
 
 import { title, subtitle } from "@/components/primitives";
-import SectionsList from "@/app/cv-builder/SectionsList";
 import AddCvContent from "@/app/cv-builder/AddCvContent";
 import CvSidePreviw from "@/app/cv-builder/CvSidePreviw";
+
+// Импортируем SectionsList без SSR чтобы избежать hydration mismatch с dnd-kit
+const SectionsList = dynamic(() => import("@/app/cv-builder/SectionsList"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center p-8">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+    </div>
+  ),
+});
 
 export default function CvBuilder() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

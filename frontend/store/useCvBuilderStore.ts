@@ -26,34 +26,39 @@ interface PersonalInformation {
 }
 
 // Professional Summary type
-interface ProfessionalSummary {
+export interface ProfessionalSummary {
   id: string;
   title: string;
   description: string;
   isVisible: boolean;
+  isNew?: boolean;
 }
 
-interface ProfExperience {
+export interface ProfExperience {
   id: string;
   jobTitle: string;
   employer: string;
   location: string;
   startDate: string;
   endDate: string;
+  isCurrentlyWorking: boolean;
   description: string;
   isVisible: boolean;
+  isNew?: boolean;
 }
 
 // Education type
-interface Education {
+export interface Education {
   id: string;
   degree: string;
   specialty: string;
   startDate: string;
   endDate: string;
+  isCurrentlyStudying: boolean;
   location: string;
   description: string;
   isVisible: boolean;
+  isNew?: boolean;
 }
 
 // Language type
@@ -63,6 +68,7 @@ interface Language {
   level: string;
   additionalInfo: string;
   isVisible?: boolean;
+  isNew?: boolean;
 }
 
 // Skill type
@@ -72,6 +78,7 @@ interface Skill {
   level: string;
   information: string;
   isVisible?: boolean;
+  isNew?: boolean;
 }
 
 // Main type of CV Builder state
@@ -81,6 +88,9 @@ interface CvBuilderState {
 
   // Selected sections of CV
   selectedSections: string[];
+
+  // Order of sections (IDs in order)
+  sectionsOrder: string[];
 
   // Personal information
   personalInformation: PersonalInformation;
@@ -102,6 +112,7 @@ interface CvBuilderState {
 
   // Methods to update the state
   setSelectedSections: (sections: string[]) => void;
+  setSectionsOrder: (order: string[]) => void;
   setPersonalInformation: (information: Partial<PersonalInformation>) => void;
 
   // Professional Summary methods
@@ -167,6 +178,14 @@ export const useCvBuilderStore = create<CvBuilderState>()(
       // Initial state
       selectedTemplate: "modern",
       selectedSections: ["personal-information"],
+      sectionsOrder: [
+        "personal-information",
+        "professional-summary",
+        "prof_experience",
+        "education",
+        "skills",
+        "languages",
+      ],
       personalInformation: initialPersonalInformation,
       professionalSummary: [],
       profExperience: [],
@@ -176,6 +195,9 @@ export const useCvBuilderStore = create<CvBuilderState>()(
 
       // Method to update selected sections
       setSelectedSections: (sections) => set({ selectedSections: sections }),
+
+      // Method to update sections order
+      setSectionsOrder: (order) => set({ sectionsOrder: order }),
 
       // Method to save personal information
       setPersonalInformation: (information) =>
@@ -191,7 +213,7 @@ export const useCvBuilderStore = create<CvBuilderState>()(
         set((state) => ({
           professionalSummary: [
             ...state.professionalSummary,
-            { ...summary, id: `summary-${Date.now()}` },
+            { ...summary, id: `summary-${Date.now()}`, isNew: true },
           ],
         })),
 
@@ -224,7 +246,7 @@ export const useCvBuilderStore = create<CvBuilderState>()(
         set((state) => ({
           profExperience: [
             ...state.profExperience,
-            { ...experience, id: `experience-${Date.now()}`, isVisible: true },
+            { ...experience, id: `experience-${Date.now()}`, isVisible: true, isNew: true },
           ],
         })),
 
@@ -257,7 +279,7 @@ export const useCvBuilderStore = create<CvBuilderState>()(
         set((state) => ({
           education: [
             ...state.education,
-            { ...education, id: `education-${Date.now()}`, isVisible: true },
+            { ...education, id: `education-${Date.now()}`, isVisible: true, isNew: true },
           ],
         })),
 
@@ -290,7 +312,7 @@ export const useCvBuilderStore = create<CvBuilderState>()(
         set((state) => ({
           languages: [
             ...state.languages,
-            { ...language, id: `language-${Date.now()}`, isVisible: true },
+            { ...language, id: `language-${Date.now()}`, isVisible: true, isNew: true },
           ],
         })),
 
@@ -321,7 +343,10 @@ export const useCvBuilderStore = create<CvBuilderState>()(
       // Skill methods
       addSkill: (skill) =>
         set((state) => ({
-          skills: [...state.skills, { ...skill, id: `skill-${Date.now()}`, isVisible: true }],
+          skills: [
+            ...state.skills,
+            { ...skill, id: `skill-${Date.now()}`, isVisible: true, isNew: true },
+          ],
         })),
 
       updateSkill: (id, skill) =>
@@ -357,6 +382,7 @@ export const useCvBuilderStore = create<CvBuilderState>()(
       partialize: (state) => ({
         selectedTemplate: state.selectedTemplate,
         selectedSections: state.selectedSections,
+        sectionsOrder: state.sectionsOrder,
         personalInformation: {
           ...state.personalInformation,
           profileImage: null, // File cannot be serialized in localStorage

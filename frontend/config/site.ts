@@ -5,10 +5,6 @@ export const siteConfig = {
   description: "Make beautiful websites regardless of your design experience.",
   navItems: [
     {
-      label: "Home",
-      href: "/",
-    },
-    {
       label: "CV Builder",
       href: "/cv-builder",
     },
@@ -21,16 +17,12 @@ export const siteConfig = {
       href: "/suggest-feature",
     },
     {
-      label: "About",
-      href: "/about",
+      label: "FAQ",
+      href: "/faq",
     },
   ],
   navMenuItems: [
     {
-      label: "Home",
-      href: "/",
-    },
-    {
       label: "CV Builder",
       href: "/cv-builder",
     },
@@ -43,8 +35,8 @@ export const siteConfig = {
       href: "/suggest-feature",
     },
     {
-      label: "About",
-      href: "/about",
+      label: "FAQ",
+      href: "/faq",
     },
   ],
   // links: {

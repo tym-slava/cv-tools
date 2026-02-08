@@ -48,6 +48,7 @@ const ProfExperienceList: React.FC = () => {
       location: "",
       startDate: "",
       endDate: "",
+      isCurrentlyWorking: false,
       description: "",
       isVisible: true,
     });
@@ -74,10 +75,12 @@ const ProfExperienceList: React.FC = () => {
         </SortableContext>
       </DndContext>
 
-      <CommonAddButton
-        buttonText="Add new experience"
-        onClick={handleAddExperience}
-      />
+      <div className="w-full mb-4 flex justify-end">
+        <CommonAddButton
+          buttonText="Add new experience"
+          onClick={handleAddExperience}
+        />
+      </div>
     </div>
   );
 };

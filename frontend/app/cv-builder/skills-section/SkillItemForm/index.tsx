@@ -15,6 +15,7 @@ interface SkillItemFormProps {
     level: string;
     information: string;
     isVisible?: boolean;
+    isNew?: boolean;
   };
 }
 
@@ -31,6 +32,8 @@ const SkillItemForm: React.FC<SkillItemFormProps> = ({ id, skill }) => {
     useSortable({ id });
   const { updateSkill, deleteSkill, toggleSkillVisibility } = useCvBuilderStore();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [formData, setFormData] = useState({
     skill: skill?.skill || "",
     level: skill?.level || "",
@@ -45,6 +48,15 @@ const SkillItemForm: React.FC<SkillItemFormProps> = ({ id, skill }) => {
       information: skill?.information || "",
     });
   }, [skill]);
+
+  // Автоматически открываем модалку для новых элементов
+  useEffect(() => {
+    if (skill?.isNew) {
+      setIsModalOpen(true);
+      // Убираем флаг isNew после открытия
+      updateSkill(id, { isNew: false });
+    }
+  }, [skill?.isNew, id, updateSkill]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -83,8 +95,10 @@ const SkillItemForm: React.FC<SkillItemFormProps> = ({ id, skill }) => {
     >
       <CommonInfoModalItem
         title={skill?.skill || "New Entry"}
+        isOpen={isModalOpen}
         dragHandleProps={{ ref: setActivatorNodeRef, ...listeners }}
         isVisible={skill?.isVisible ?? true}
+        onOpenChange={setIsModalOpen}
         onToggleVisibility={handleToggleVisibility}
         onDelete={handleDelete}
       >
