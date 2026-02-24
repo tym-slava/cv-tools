@@ -2,7 +2,9 @@
 
 import HeroSection from "@/common-components/sections/hero-section";
 import AdvantagesSection from "@/common-components/sections/advantages-section";
-import MainBanner from "@/common-components/sections/main-banner";
+import WhyUs from "@/common-components/sections/why-us";
+import Feedbacks from "@/common-components/sections/feedbacks";
+import CtaSection from "@/common-components/sections/cta-section";
 
 export default function Home() {
   return (
@@ -10,9 +12,9 @@ export default function Home() {
       <HeroSection />
       <div className="container mx-auto max-w-7xl pt-16 px-6">
         <AdvantagesSection />
-        <div className="wrapper mt-16 mb-16">
-          <MainBanner />
-        </div>
+        <WhyUs />
+        <Feedbacks />
+        <CtaSection />
       </div>
     </>
   );

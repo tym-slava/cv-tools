@@ -4,5 +4,7 @@
   "files.associations": {
     "*.tsx": "typescriptreact",
     "*.ts": "typescript"
-  }
+  },
+  "css.validate": false,
+  "scss.validate": false
 }

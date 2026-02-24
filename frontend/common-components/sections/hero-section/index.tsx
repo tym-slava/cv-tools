@@ -24,6 +24,9 @@ function HeroSection() {
           developers, designers, marketers, and students. Export as PDF, fast and easy. Build your
           CV in minutes and get hired!
         </p>
+        <p className="h-auto text-muted-foreground text-[10px] md:text-[14px] text-center text-[var(--foreground)]">
+          Join 10,000+ professionals who landed jobs at top companies.
+        </p>
       </div>
     </section>
   );
