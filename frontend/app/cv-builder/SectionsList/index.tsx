@@ -26,7 +26,7 @@ import { sections } from "./sections";
 
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
-// Sortable Section wrapper - каждая секция в отдельном Accordion
+// Sortable section wrapper — each section rendered in its own Accordion
 function SortableSection({
   section,
   children,
@@ -55,6 +55,11 @@ function SortableSection({
       className="mb-2"
     >
       <Accordion
+        className="bg-white/60 dark:bg-white/5
+          border border-gray-200/80 dark:border-white/10
+          backdrop-blur-sm
+          shadow-sm
+          p-2 sm:p-4"
         selectionMode="multiple"
         variant="shadow"
         selectedKeys={isExpanded ? [section.key.toString()] : []}
@@ -104,10 +109,10 @@ function SortableSection({
 function SectionsList() {
   const { selectedSections, sectionsOrder, setSectionsOrder } = useCvBuilderStore();
 
-  // Управляемое состояние для открытых аккордеонов
+  // Controlled state for expanded accordions
   const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set(["1"]));
 
-  // Храним предыдущее количество секций для определения новой
+  // Keep track of previously selected sections to detect newly added ones
   const prevSelectedSectionsRef = useRef<string[]>(selectedSections);
 
   const sensors = useSensors(
@@ -127,7 +132,7 @@ function SectionsList() {
     })
   );
 
-  // Сортируем секции согласно sectionsOrder
+  // Sort sections according to sectionsOrder
   const orderedSections = [...sections].sort((a, b) => {
     const indexA = sectionsOrder.indexOf(a.id);
     const indexB = sectionsOrder.indexOf(b.id);
@@ -139,21 +144,21 @@ function SectionsList() {
     selectedSections.includes(section.id)
   );
 
-  // Автоматически открываем только новый аккордеон
+  // Auto-expand only the newly added accordion
   useEffect(() => {
     const prevSections = prevSelectedSectionsRef.current;
 
-    // Находим новую секцию (ту, которая есть в selectedSections, но не было в prevSections)
+    // Find the new section (present in selectedSections but not in prevSections)
     const newSection = selectedSections.find((id) => !prevSections.includes(id));
 
     if (newSection) {
-      // Находим ключ новой секции
+      // Find the key of the new section
       const sectionData = sections.find((section) => section.id === newSection);
 
       if (sectionData) {
         const newKey = String(sectionData.key);
 
-        // Добавляем только новую секцию к открытым
+        // Add only the new section to the expanded set
         setExpandedKeys((prev) => {
           const newExpandedKeys = new Set(prev);
 
@@ -164,7 +169,7 @@ function SectionsList() {
       }
     }
 
-    // Обновляем ref для следующего сравнения
+    // Update ref for the next comparison
     prevSelectedSectionsRef.current = selectedSections;
   }, [selectedSections]);
 

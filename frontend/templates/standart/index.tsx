@@ -15,10 +15,10 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
     .filter(Boolean)
     .join(", ");
 
-  // Получаем секции в правильном порядке
+  // Get sections in the user-defined order
   const sortedSections = getSortedSections(data);
 
-  // Рендер секции по ID
+  // Render section by ID
   const renderSection = (sectionId: string) => {
     switch (sectionId) {
       case "professional-summary":
@@ -177,7 +177,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
 
   return (
     <div className="bg-white p-10 font-sans text-black min-h-[1123px] w-full max-w-[800px] mx-auto shadow-lg">
-      {/* Header - всегда первый */}
+      {/* Header — always rendered first */}
       <header className="border-b-2 border-gray-800 pb-4 mb-6">
         <h1 className="text-3xl font-bold uppercase tracking-tight">{fullName || "Your Name"}</h1>
         <p className="text-xl text-gray-600 mb-4">{personalInformation.jobTitle || "Job Title"}</p>
@@ -190,7 +190,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
         </div>
       </header>
 
-      {/* Динамические секции в порядке пользователя */}
+      {/* Dynamic sections in user-defined order */}
       {sortedSections
         .filter((section) => section.id !== "personal-information")
         .map((section) => renderSection(section.id))}

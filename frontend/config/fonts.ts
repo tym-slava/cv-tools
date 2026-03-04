@@ -12,6 +12,6 @@ export const fontMono = FontMono({
 
 export const fontLogo = Audiowide({
   subsets: ["latin"],
-  weight: "400", // У Audiowide только один вес - 400
+  weight: "400", // Audiowide only has one weight — 400
   variable: "--font-logo",
 });

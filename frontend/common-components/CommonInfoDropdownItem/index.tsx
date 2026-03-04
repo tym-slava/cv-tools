@@ -51,7 +51,7 @@ const CommonInfoModalItem: React.FC<Props> = ({
           type="button"
           className="title flex-1 min-w-0 px-2 text-ellipsis text-left cursor-pointer line-clamp-2 whitespace-pre-wrap leading-[1.2] overflow-hidden text-sm bg-transparent border-none p-0 hover:text-primary transition-colors"
           tabIndex={0}
-          aria-label={`Відкрити модальне вікно для ${title}`}
+          aria-label={`Open modal for ${title}`}
           onKeyDown={(e) => e.key === "Enter" && onOpen()}
           onClick={onOpen}
         >
@@ -63,7 +63,7 @@ const CommonInfoModalItem: React.FC<Props> = ({
             type="button"
             className="icon-wrapper flex-shrink-0 ml-auto bg-transparent border-none p-0 cursor-pointer hover:scale-110 transition-transform"
             tabIndex={0}
-            aria-label={isVisible ? "Приховати поле" : "Показати поле"}
+            aria-label={isVisible ? "Hide field" : "Show field"}
             onKeyDown={(e) => e.key === "Enter" && onToggleVisibility()}
             onClick={onToggleVisibility}
           >
@@ -72,8 +72,8 @@ const CommonInfoModalItem: React.FC<Props> = ({
                 radius="sm"
                 content={
                   <div className="text-center">
-                    Приховує поле в резюме
-                    <br /> (не видаляє його).
+                    Hides the field in the resume
+                    <br /> (does not delete it).
                   </div>
                 }
               >
@@ -84,8 +84,8 @@ const CommonInfoModalItem: React.FC<Props> = ({
                 radius="sm"
                 content={
                   <div className="text-center">
-                    Поле знову відображатиметься
-                    <br /> у фінальній версії.
+                    The field will appear again
+                    <br /> in the final version.
                   </div>
                 }
               >
@@ -100,13 +100,13 @@ const CommonInfoModalItem: React.FC<Props> = ({
             type="button"
             className="icon-wrapper flex-shrink-0 bg-transparent border-none p-0 cursor-pointer hover:scale-110 transition-transform"
             tabIndex={0}
-            aria-label="Видалити елемент"
+            aria-label="Delete item"
             onKeyDown={(e) => e.key === "Enter" && handleDelete()}
             onClick={handleDelete}
           >
             <Tooltip
               radius="sm"
-              content="Видалити"
+              content="Delete"
             >
               <Trash2 className="w-5 h-5 text-gray-500 hover:text-danger" />
             </Tooltip>
@@ -129,7 +129,7 @@ const CommonInfoModalItem: React.FC<Props> = ({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1 text-lg font-semibold">
-                {title || "Редагування"}
+                {title || "Edit"}
               </ModalHeader>
               <ModalBody>{children}</ModalBody>
               <ModalFooter>

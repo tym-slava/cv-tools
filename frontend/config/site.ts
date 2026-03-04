@@ -20,6 +20,10 @@ export const siteConfig = {
       label: "FAQ",
       href: "/faq",
     },
+    {
+      label: "Contact",
+      href: "mailto:oncvlink@gmail.com",
+    },
   ],
   navMenuItems: [
     {

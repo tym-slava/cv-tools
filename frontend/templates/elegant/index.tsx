@@ -16,7 +16,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
     .filter(Boolean)
     .join(", ");
 
-  // Получаем секции в правильном порядке
+  // Get sections in the user-defined order
   const sortedSections = getSortedSections(data);
 
   const SectionTitle: React.FC<{ title: string }> = ({ title }) => (
@@ -32,7 +32,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
     </div>
   );
 
-  // Рендер секции по ID
+  // Render section by ID
   const renderSection = (sectionId: string) => {
     switch (sectionId) {
       case "professional-summary":
@@ -229,7 +229,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
       </header>
 
       <div className="px-10 py-8 space-y-8">
-        {/* Динамические секции в порядке пользователя */}
+        {/* Dynamic sections in user-defined order */}
         {sortedSections
           .filter((section) => section.id !== "personal-information")
           .map((section) => renderSection(section.id))}

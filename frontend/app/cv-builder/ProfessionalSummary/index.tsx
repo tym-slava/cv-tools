@@ -39,11 +39,11 @@ const SortableItem: React.FC<SortableItemProps> = ({ id, summary }) => {
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  // Автоматически открываем модалку для новых элементов
+  // Auto-open modal for newly added items
   React.useEffect(() => {
     if (summary.isNew) {
       setIsModalOpen(true);
-      // Убираем флаг isNew после открытия
+      // Clear the isNew flag after opening
       updateProfessionalSummary(id, { isNew: false });
     }
   }, [summary.isNew, id, updateProfessionalSummary]);
@@ -65,7 +65,7 @@ const SortableItem: React.FC<SortableItemProps> = ({ id, summary }) => {
     toggleProfessionalSummaryVisibility(id);
   };
 
-  // Извлекаем plain text из HTML для отображения в заголовке
+  // Extract plain text from HTML for display in the title
   const getPlainText = (html: string) => {
     const tempDiv = document.createElement("div");
 

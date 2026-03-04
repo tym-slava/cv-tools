@@ -40,7 +40,7 @@ const SkillItemForm: React.FC<SkillItemFormProps> = ({ id, skill }) => {
     information: skill?.information || "",
   });
 
-  // Синхронізація з даними зі store при їх зміні
+  // Sync form data with store on external changes
   useEffect(() => {
     setFormData({
       skill: skill?.skill || "",
@@ -49,11 +49,11 @@ const SkillItemForm: React.FC<SkillItemFormProps> = ({ id, skill }) => {
     });
   }, [skill]);
 
-  // Автоматически открываем модалку для новых элементов
+  // Auto-open modal for newly added items
   useEffect(() => {
     if (skill?.isNew) {
       setIsModalOpen(true);
-      // Убираем флаг isNew после открытия
+      // Clear the isNew flag after opening
       updateSkill(id, { isNew: false });
     }
   }, [skill?.isNew, id, updateSkill]);
@@ -109,13 +109,14 @@ const SkillItemForm: React.FC<SkillItemFormProps> = ({ id, skill }) => {
             placeholder="Enter Skill"
             className="w-full mb-4"
             value={formData.skill}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("skill", e.target.value)}
           />
           <div className="w-full mb-4">
             <CommonTextArea
               labelText="Information / Sub-skills"
               placeholder="Enter information or sub-skills"
-              tooltipContent="Опишіть деталі навички, підкатегорії або додаткову інформацію."
+              tooltipContent="Describe skill details, sub-categories, or additional information."
               initialValue={formData.information}
               onChange={handleInformationChange}
             />

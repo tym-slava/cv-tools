@@ -34,7 +34,7 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
     description: experience?.description || "",
   });
 
-  // Синхронізація з даними зі store при їх зміні
+  // Sync form data with store on external changes
   useEffect(() => {
     setFormData({
       jobTitle: experience?.jobTitle || "",
@@ -51,11 +51,11 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
     });
   }, [experience]);
 
-  // Автоматически открываем модалку для новых элементов
+  // Auto-open modal for newly added items
   useEffect(() => {
     if (experience?.isNew) {
       setIsModalOpen(true);
-      // Убираем флаг isNew после открытия
+      // Clear the isNew flag after opening
       updateProfExperience(id, { isNew: false });
     }
   }, [experience?.isNew, id, updateProfExperience]);
@@ -131,6 +131,7 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
             type="text"
             className="w-full mb-4"
             value={formData.jobTitle}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("jobTitle", e.target.value)}
           />
           <Input
@@ -138,6 +139,7 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
             type="text"
             className="w-full mb-4"
             value={formData.employer}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("employer", e.target.value)}
           />
           <div className="mb-4 w-full">
@@ -155,6 +157,7 @@ function ProfExperienceItemForm({ id, experience }: ProfExperienceItemFormProps)
             type="text"
             className="w-full mb-4"
             value={formData.location}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("location", e.target.value)}
           />
           <div className="w-full mb-4">

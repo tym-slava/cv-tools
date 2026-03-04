@@ -32,7 +32,7 @@ const EducationItemForm: React.FC<EducationItemFormProps> = ({ id, education }) 
     description: education?.description || "",
   });
 
-  // Синхронізація з даними зі store при їх зміні
+  // Sync form data with store on external changes
   useEffect(() => {
     setFormData({
       degree: education?.degree || "",
@@ -46,11 +46,11 @@ const EducationItemForm: React.FC<EducationItemFormProps> = ({ id, education }) 
     });
   }, [education]);
 
-  // Автоматически открываем модалку для новых элементов
+  // Auto-open modal for newly added items
   useEffect(() => {
     if (education?.isNew) {
       setIsModalOpen(true);
-      // Убираем флаг isNew после открытия
+      // Clear the isNew flag after opening
       updateEducation(id, { isNew: false });
     }
   }, [education?.isNew, id, updateEducation]);
@@ -126,6 +126,7 @@ const EducationItemForm: React.FC<EducationItemFormProps> = ({ id, education }) 
             type="text"
             className="w-full mb-4"
             value={formData.degree}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("degree", e.target.value)}
           />
           <Input
@@ -133,6 +134,7 @@ const EducationItemForm: React.FC<EducationItemFormProps> = ({ id, education }) 
             type="text"
             className="w-full mb-4"
             value={formData.specialty}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("specialty", e.target.value)}
           />
           <Input
@@ -140,6 +142,7 @@ const EducationItemForm: React.FC<EducationItemFormProps> = ({ id, education }) 
             type="text"
             className="w-full mb-4"
             value={formData.location}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("location", e.target.value)}
           />
           <div className="mb-4 w-full">

@@ -8,7 +8,7 @@ import { title, subtitle } from "@/components/primitives";
 import AddCvContent from "@/app/cv-builder/AddCvContent";
 import CvSidePreviw from "@/app/cv-builder/CvSidePreviw";
 
-// Импортируем SectionsList без SSR чтобы избежать hydration mismatch с dnd-kit
+// Import SectionsList without SSR to avoid hydration mismatch with dnd-kit
 const SectionsList = dynamic(() => import("@/app/cv-builder/SectionsList"), {
   ssr: false,
   loading: () => (

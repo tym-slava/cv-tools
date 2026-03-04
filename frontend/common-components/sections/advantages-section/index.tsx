@@ -10,7 +10,11 @@ function AdvantagesSection() {
         {advantagesList.slice(0, 3).map((advantage, index) => (
           <Card
             key={`advantage-${index}`}
-            className="max-w-[400px]"
+            className="max-w-[400px] bg-white/60 dark:bg-white/5
+              border border-gray-200/80 dark:border-white/10
+              backdrop-blur-sm
+              shadow-sm hover:shadow-md
+              transition-all duration-300 hover:-translate-y-1"
           >
             <CardHeader className="flex gap-3">
               {advantage.icon}
@@ -28,7 +32,11 @@ function AdvantagesSection() {
         {advantagesList.slice(-3).map((advantage, index) => (
           <Card
             key={`advantage-${index}`}
-            className="w-full max-w-[400px]"
+            className="w-full max-w-[400px] bg-white/60 dark:bg-white/5
+              border border-gray-200/80 dark:border-white/10
+              backdrop-blur-sm
+              shadow-sm hover:shadow-md
+              transition-all duration-300 hover:-translate-y-1"
           >
             <CardHeader className="flex gap-3">
               {advantage.icon}
