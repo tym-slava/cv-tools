@@ -20,13 +20,13 @@ interface LanguageItemFormProps {
 }
 
 const languageLevels = [
-  { key: "A1", label: "A1 - Початковий" },
-  { key: "A2", label: "A2 - Елементарний" },
-  { key: "B1", label: "B1 - Середній" },
-  { key: "B2", label: "B2 - Вище середнього" },
-  { key: "C1", label: "C1 - Просунутий" },
-  { key: "C2", label: "C2 - Досконалий" },
-  { key: "Native", label: "Рідна мова" },
+  { key: "A1", label: "A1 - Beginner" },
+  { key: "A2", label: "A2 - Elementary" },
+  { key: "B1", label: "B1 - Intermediate" },
+  { key: "B2", label: "B2 - Upper Intermediate" },
+  { key: "C1", label: "C1 - Advanced" },
+  { key: "C2", label: "C2 - Mastery" },
+  { key: "Native", label: "Native" },
 ];
 
 const LanguageItemForm: React.FC<LanguageItemFormProps> = ({ id, language }) => {
@@ -42,7 +42,7 @@ const LanguageItemForm: React.FC<LanguageItemFormProps> = ({ id, language }) => 
     additionalInfo: language?.additionalInfo || "",
   });
 
-  // Синхронізація з даними зі store при їх зміні
+  // Sync form data with store on external changes
   useEffect(() => {
     setFormData({
       language: language?.language || "",
@@ -51,11 +51,11 @@ const LanguageItemForm: React.FC<LanguageItemFormProps> = ({ id, language }) => 
     });
   }, [language]);
 
-  // Автоматически открываем модалку для новых элементов
+  // Auto-open modal for newly added items
   useEffect(() => {
     if (language?.isNew) {
       setIsModalOpen(true);
-      // Убираем флаг isNew после открытия
+      // Clear the isNew flag after opening
       updateLanguage(id, { isNew: false });
     }
   }, [language?.isNew, id, updateLanguage]);
@@ -110,11 +110,12 @@ const LanguageItemForm: React.FC<LanguageItemFormProps> = ({ id, language }) => 
             type="text"
             className="w-full mb-4"
             value={formData.language}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("language", e.target.value)}
           />
           <Select
             label="Level"
-            placeholder="Оберіть рівень"
+            placeholder="Select level"
             className="w-full mb-4"
             selectedKeys={formData.level ? [formData.level] : []}
             onSelectionChange={(keys) => {
@@ -130,8 +131,8 @@ const LanguageItemForm: React.FC<LanguageItemFormProps> = ({ id, language }) => 
           <div className="w-full mb-4">
             <CommonTextArea
               labelText="Additional information"
-              placeholder="Додаткова інформація про володіння мовою"
-              tooltipContent="Опишіть свій досвід використання мови, сертифікати, або інші важливі деталі."
+              placeholder="Additional information about language proficiency"
+              tooltipContent="Describe your language experience, certifications, or other important details."
               initialValue={formData.additionalInfo}
               onChange={handleAdditionalInfoChange}
             />

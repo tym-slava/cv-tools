@@ -5,7 +5,7 @@ import CommonDropzone from "@/common-components/CommonDropzone";
 import CommonAddButton from "@/common-components/buttons/CommonAddButton";
 import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
-// 🔧 Інтерфейс для файлу з прев'ю
+// Interface for a file with preview URL
 interface FileWithPreview extends File {
   preview: string;
 }
@@ -27,7 +27,7 @@ const PersonalInformation: React.FC = () => {
     website: savedPersonalInformation.website,
   });
 
-  // Синхронізація formData з даними зі store
+  // Sync formData with store data
   useEffect(() => {
     setFormData({
       firstName: savedPersonalInformation.firstName,
@@ -76,7 +76,7 @@ const PersonalInformation: React.FC = () => {
     }
   }, []);
 
-  // Синхронізація localProfileImage з даними зі store
+  // Sync localProfileImage with store data
   useEffect(() => {
     if (savedPersonalInformation.profileImagePreview) {
       const preview = savedPersonalInformation.profileImagePreview.preview;
@@ -155,6 +155,7 @@ const PersonalInformation: React.FC = () => {
             name="firstName"
             type="text"
             value={formData.firstName}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("firstName", e.target.value)}
           />
           <Input
@@ -162,6 +163,7 @@ const PersonalInformation: React.FC = () => {
             name="lastName"
             type="text"
             value={formData.lastName}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("lastName", e.target.value)}
           />
         </div>
@@ -172,6 +174,7 @@ const PersonalInformation: React.FC = () => {
             name="jobTitle"
             type="text"
             value={formData.jobTitle}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("jobTitle", e.target.value)}
           />
         </div>
@@ -182,6 +185,7 @@ const PersonalInformation: React.FC = () => {
             name="phone"
             type="tel"
             value={formData.phone}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("phone", e.target.value)}
           />
           <Input
@@ -189,6 +193,7 @@ const PersonalInformation: React.FC = () => {
             name="email"
             type="email"
             value={formData.email}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("email", e.target.value)}
           />
         </div>
@@ -199,6 +204,7 @@ const PersonalInformation: React.FC = () => {
             name="country"
             type="text"
             value={formData.country}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("country", e.target.value)}
           />
           <Input
@@ -206,6 +212,7 @@ const PersonalInformation: React.FC = () => {
             name="city"
             type="text"
             value={formData.city}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("city", e.target.value)}
           />
         </div>
@@ -216,6 +223,7 @@ const PersonalInformation: React.FC = () => {
             name="website"
             type="url"
             value={formData.website}
+            classNames={{ inputWrapper: "bg-white/50 dark:bg-white/5" }}
             onChange={(e) => handleInputChange("website", e.target.value)}
           />
         </div>

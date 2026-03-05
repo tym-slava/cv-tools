@@ -79,7 +79,7 @@ export default function PricingPage() {
           Subscribers will get early access, bonuses, and special offers.
         </p>
 
-        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 cursor-pointer shadow-lg hover:shadow-xl">
+        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 cursor-pointer shadow-lg hover:shadow-xl">
           <span className="text-2xl">👉</span>
           <span>Subscribe to stay updated</span>
         </div>

@@ -1,6 +1,6 @@
 /**
- * Утилита для получения секций в правильном порядке
- * согласно настройкам пользователя (sectionsOrder)
+ * Utility for retrieving sections in the correct order
+ * based on the user's sectionsOrder setting.
  */
 
 interface SectionData {
@@ -13,7 +13,7 @@ interface SectionData {
 export const getSortedSections = (cvData: any): SectionData[] => {
   const { sectionsOrder } = cvData;
 
-  // Определяем все доступные секции с их данными
+  // Define all available sections with their data
   const allSections: SectionData[] = [
     {
       id: "personal-information",
@@ -53,17 +53,17 @@ export const getSortedSections = (cvData: any): SectionData[] => {
     },
   ];
 
-  // Если нет sectionsOrder, возвращаем в дефолтном порядке
+  // If there is no sectionsOrder, return in default order
   if (!sectionsOrder || sectionsOrder.length === 0) {
     return allSections;
   }
 
-  // Сортируем секции согласно sectionsOrder
+  // Sort sections according to sectionsOrder
   const sortedSections = allSections.sort((a, b) => {
     const indexA = sectionsOrder.indexOf(a.id);
     const indexB = sectionsOrder.indexOf(b.id);
 
-    // Если секции нет в sectionsOrder, помещаем её в конец
+    // If a section is not in sectionsOrder, push it to the end
     if (indexA === -1) return 1;
     if (indexB === -1) return -1;
 

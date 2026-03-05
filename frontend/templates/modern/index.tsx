@@ -13,10 +13,10 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
 
   const fullName = `${personalInformation.firstName} ${personalInformation.lastName}`.trim();
 
-  // Получаем секции в правильном порядке
+  // Get sections in the user-defined order
   const sortedSections = getSortedSections(data);
 
-  // Рендер секции по ID
+  // Render section by ID
   const renderSection = (sectionId: string) => {
     switch (sectionId) {
       case "professional-summary":
@@ -178,7 +178,7 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
 
   return (
     <div className="bg-white p-10 font-serif text-black min-h-[1123px] w-full max-w-[800px] mx-auto shadow-lg">
-      {/* Header - всегда первый */}
+      {/* Header — always rendered first */}
       <header className="mb-8">
         <h1 className="text-4xl font-bold mb-1">{fullName}</h1>
         <p className="text-2xl text-gray-700 mb-6">{personalInformation.jobTitle}</p>
@@ -213,7 +213,7 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
         </div>
       </header>
 
-      {/* Динамические секции в порядке пользователя */}
+      {/* Dynamic sections in user-defined order */}
       {sortedSections
         .filter((section) => section.id !== "personal-information")
         .map((section) => renderSection(section.id))}

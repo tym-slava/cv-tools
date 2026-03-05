@@ -114,11 +114,11 @@ function CommonTextArea({
     };
   }, [placeholder]);
 
-  // Обновление содержимого при изменении initialValue
+  // Update editor content when initialValue changes externally
   useEffect(() => {
     if (!quillRef.current || initialValue === undefined) return;
 
-    // Если значение совпадает с последним отправленным, не обновляем
+    // Skip update if the value matches the last emitted one to avoid loops
     if (lastEmittedValueRef.current === initialValue) return;
 
     const currentHtml = quillRef.current.root.innerHTML;
