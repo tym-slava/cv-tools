@@ -7,8 +7,16 @@ interface StandartTemplateProps {
 }
 
 const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
-  const { personalInformation, professionalSummary, profExperience, education, skills, languages } =
-    data;
+  const {
+    personalInformation,
+    professionalSummary,
+    profExperience,
+    education,
+    skills,
+    languages,
+    sectionTitles = {},
+    enabledSections = {},
+  } = data;
 
   const fullName = `${personalInformation.firstName} ${personalInformation.lastName}`.trim();
   const location = [personalInformation.city, personalInformation.country]
@@ -18,18 +26,22 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
   // Get sections in the user-defined order
   const sortedSections = getSortedSections(data);
 
+  // Helper to get custom or default section heading
+  const getSectionTitle = (id: string, fallback: string) => sectionTitles[id] || fallback;
+
   // Render section by ID
   const renderSection = (sectionId: string) => {
     switch (sectionId) {
       case "professional-summary":
         return (
+          enabledSections["professional-summary"] !== false &&
           professionalSummary.filter((s: any) => s.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-6"
             >
               <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-2 pb-1">
-                Profile
+                {getSectionTitle("professional-summary", "Profile")}
               </h2>
               <div className="space-y-3">
                 {professionalSummary
@@ -50,13 +62,14 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
 
       case "prof_experience":
         return (
+          enabledSections["prof_experience"] !== false &&
           profExperience.filter((exp: any) => exp.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-6"
             >
               <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-2 pb-1">
-                Work Experience
+                {getSectionTitle("prof_experience", "Work Experience")}
               </h2>
               <div className="space-y-4">
                 {profExperience
@@ -86,13 +99,14 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
 
       case "education":
         return (
+          enabledSections["education"] !== false &&
           education.filter((edu: any) => edu.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-6"
             >
               <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-2 pb-1">
-                Education
+                {getSectionTitle("education", "Education")}
               </h2>
               <div className="space-y-3">
                 {education
@@ -120,13 +134,14 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
 
       case "skills":
         return (
+          enabledSections["skills"] !== false &&
           skills.filter((s: any) => s.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-6"
             >
               <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-2 pb-1">
-                Skills
+                {getSectionTitle("skills", "Skills")}
               </h2>
               <ul className="list-disc list-inside space-y-1">
                 {skills
@@ -146,13 +161,14 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
 
       case "languages":
         return (
+          enabledSections["languages"] !== false &&
           languages.filter((l: any) => l.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-6"
             >
               <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-2 pb-1">
-                Languages
+                {getSectionTitle("languages", "Languages")}
               </h2>
               <ul className="list-disc list-inside space-y-1">
                 {languages

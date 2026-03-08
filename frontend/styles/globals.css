@@ -29,6 +29,13 @@ html.light {
   --dot-color: #1e293b;
 }
 
+/* Dev banner shimmer sweep */
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
 /* Seamless diagonal drift animation (matches background-size for infinite loop) */
 @keyframes dotDrift {
   0%   { background-position: 0 0; }

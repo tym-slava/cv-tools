@@ -11,7 +11,7 @@ interface SectionData {
 }
 
 export const getSortedSections = (cvData: any): SectionData[] => {
-  const { sectionsOrder } = cvData;
+  const { sectionsOrder, selectedSections } = cvData;
 
   // Define all available sections with their data
   const allSections: SectionData[] = [
@@ -53,13 +53,18 @@ export const getSortedSections = (cvData: any): SectionData[] => {
     },
   ];
 
+  // Filter only sections that the user has added (selectedSections)
+  const activeSections = selectedSections?.length
+    ? allSections.filter((s) => selectedSections.includes(s.id))
+    : allSections;
+
   // If there is no sectionsOrder, return in default order
   if (!sectionsOrder || sectionsOrder.length === 0) {
-    return allSections;
+    return activeSections;
   }
 
   // Sort sections according to sectionsOrder
-  const sortedSections = allSections.sort((a, b) => {
+  const sortedSections = activeSections.sort((a, b) => {
     const indexA = sectionsOrder.indexOf(a.id);
     const indexB = sectionsOrder.indexOf(b.id);
 

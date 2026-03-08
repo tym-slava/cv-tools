@@ -8,26 +8,38 @@ interface ModernTemplateProps {
 }
 
 const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
-  const { personalInformation, professionalSummary, profExperience, education, skills, languages } =
-    data;
+  const {
+    personalInformation,
+    professionalSummary,
+    profExperience,
+    education,
+    skills,
+    languages,
+    sectionTitles = {},
+    enabledSections = {},
+  } = data;
 
   const fullName = `${personalInformation.firstName} ${personalInformation.lastName}`.trim();
 
   // Get sections in the user-defined order
   const sortedSections = getSortedSections(data);
 
+  // Helper to get custom or default section heading
+  const getSectionTitle = (id: string, fallback: string) => sectionTitles[id] || fallback;
+
   // Render section by ID
   const renderSection = (sectionId: string) => {
     switch (sectionId) {
       case "professional-summary":
         return (
+          enabledSections["professional-summary"] !== false &&
           professionalSummary.filter((s: any) => s.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-8"
             >
               <div className="bg-gray-100 py-1 text-center font-bold uppercase tracking-wider mb-4 border-y border-gray-200">
-                Profile
+                {getSectionTitle("professional-summary", "Profile")}
               </div>
               <div className="space-y-4">
                 {professionalSummary
@@ -47,13 +59,14 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
 
       case "prof_experience":
         return (
+          enabledSections["prof_experience"] !== false &&
           profExperience.filter((exp: any) => exp.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-8"
             >
               <div className="bg-gray-100 py-1 text-center font-bold uppercase tracking-wider mb-4 border-y border-gray-200">
-                Work Experience
+                {getSectionTitle("prof_experience", "Work Experience")}
               </div>
               <div className="space-y-6">
                 {profExperience
@@ -87,13 +100,14 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
 
       case "education":
         return (
+          enabledSections["education"] !== false &&
           education.filter((edu: any) => edu.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-8"
             >
               <div className="bg-gray-100 py-1 text-center font-bold uppercase tracking-wider mb-4 border-y border-gray-200">
-                Education
+                {getSectionTitle("education", "Education")}
               </div>
               <div className="space-y-4">
                 {education
@@ -119,13 +133,14 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
 
       case "skills":
         return (
+          enabledSections["skills"] !== false &&
           skills.filter((s: any) => s.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-8"
             >
               <div className="bg-gray-100 py-1 text-center font-bold uppercase tracking-wider mb-4 border-y border-gray-200">
-                Skills
+                {getSectionTitle("skills", "Skills")}
               </div>
               <div className="grid grid-cols-2 gap-x-8 gap-y-4">
                 {skills
@@ -147,13 +162,14 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
 
       case "languages":
         return (
+          enabledSections["languages"] !== false &&
           languages.filter((l: any) => l.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-8"
             >
               <div className="bg-gray-100 py-1 text-center font-bold uppercase tracking-wider mb-4 border-y border-gray-200">
-                Languages
+                {getSectionTitle("languages", "Languages")}
               </div>
               <div className="grid grid-cols-2 gap-x-8 gap-y-2">
                 {languages

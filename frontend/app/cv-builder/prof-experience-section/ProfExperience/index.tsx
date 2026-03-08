@@ -1,13 +1,21 @@
 import React from "react";
 
 import CommonSwitcher from "@/common-components/CommonSwitcher";
-// import CommonAddButton from "@/app/common-components/buttons/CommonAddButton";
+import CommonDeleteSection from "@/common-components/CommonDeleteSection";
 import ProfExperienceList from "@/app/cv-builder/prof-experience-section/ProfExperienceList";
+import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 
 function ProfExperience() {
+  const { enabledSections, setSectionEnabled } = useCvBuilderStore();
+
   return (
     <div className="prof-experience__component">
-      <CommonSwitcher labelText={"Enable section"} />
+      <CommonDeleteSection sectionId="prof_experience" />
+      <CommonSwitcher
+        labelText={"Enable section"}
+        isSelected={enabledSections?.["prof_experience"] !== false}
+        onChange={(enabled) => setSectionEnabled("prof_experience", enabled)}
+      />
 
       <ProfExperienceList />
 

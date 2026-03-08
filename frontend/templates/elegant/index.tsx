@@ -8,8 +8,16 @@ interface ElegantTemplateProps {
 }
 
 const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
-  const { personalInformation, professionalSummary, profExperience, education, skills, languages } =
-    data;
+  const {
+    personalInformation,
+    professionalSummary,
+    profExperience,
+    education,
+    skills,
+    languages,
+    sectionTitles = {},
+    enabledSections = {},
+  } = data;
 
   const fullName = `${personalInformation.firstName} ${personalInformation.lastName}`.trim();
   const location = [personalInformation.city, personalInformation.country]
@@ -18,6 +26,9 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
 
   // Get sections in the user-defined order
   const sortedSections = getSortedSections(data);
+
+  // Helper to get custom or default section heading
+  const getSectionTitle = (id: string, fallback: string) => sectionTitles[id] || fallback;
 
   const SectionTitle: React.FC<{ title: string }> = ({ title }) => (
     <div className="bg-gray-100 text-center font-semibold uppercase tracking-widest text-sm py-1 rounded-md border border-gray-200">
@@ -37,12 +48,13 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
     switch (sectionId) {
       case "professional-summary":
         return (
+          enabledSections["professional-summary"] !== false &&
           professionalSummary.filter((summary: any) => summary.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="space-y-3"
             >
-              <SectionTitle title="Profile" />
+              <SectionTitle title={getSectionTitle("professional-summary", "Profile")} />
               <div className="space-y-3">
                 {professionalSummary
                   .filter((summary: any) => summary.isVisible !== false)
@@ -62,12 +74,13 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
 
       case "prof_experience":
         return (
+          enabledSections["prof_experience"] !== false &&
           profExperience.filter((experience: any) => experience.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="space-y-4"
             >
-              <SectionTitle title="Professional Experience" />
+              <SectionTitle title={getSectionTitle("prof_experience", "Professional Experience")} />
               <div className="space-y-6">
                 {profExperience
                   .filter((experience: any) => experience.isVisible !== false)
@@ -102,12 +115,13 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
 
       case "education":
         return (
+          enabledSections["education"] !== false &&
           education.filter((item: any) => item.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="space-y-4"
             >
-              <SectionTitle title="Education" />
+              <SectionTitle title={getSectionTitle("education", "Education")} />
               <div className="space-y-4">
                 {education
                   .filter((item: any) => item.isVisible !== false)
@@ -141,12 +155,13 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
 
       case "skills":
         return (
+          enabledSections["skills"] !== false &&
           skills.filter((item: any) => item.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="space-y-4"
             >
-              <SectionTitle title="Technologies" />
+              <SectionTitle title={getSectionTitle("skills", "Technologies")} />
               <div className="grid grid-cols-3 gap-x-8 gap-y-2">
                 {skills
                   .filter((item: any) => item.isVisible !== false)
@@ -166,12 +181,13 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
 
       case "languages":
         return (
+          enabledSections["languages"] !== false &&
           languages.filter((item: any) => item.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="space-y-4"
             >
-              <SectionTitle title="Languages" />
+              <SectionTitle title={getSectionTitle("languages", "Languages")} />
               <div className="grid grid-cols-2 gap-x-8 gap-y-2">
                 {languages
                   .filter((item: any) => item.isVisible !== false)
@@ -195,7 +211,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
   };
 
   return (
-    <div className="bg-white font-serif text-black min-h-[1123px] w-full max-w-[800px] mx-auto shadow-lg">
+    <div className="bg-white font-serif text-black min-h-[1123px] w-full max-w-[800px] mx-auto shadow-lg p-10">
       <header className="bg-gray-200 px-10 py-8">
         <h1 className="text-4xl font-bold">{fullName || "Your Name"}</h1>
         <p className="text-xl text-gray-700 mt-1">{personalInformation.jobTitle || "Job Title"}</p>

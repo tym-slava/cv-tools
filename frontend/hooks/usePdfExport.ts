@@ -20,7 +20,7 @@ export const usePdfExport = (options: UsePdfExportOptions = {}) => {
       const html2pdf = (await import("html2pdf.js")).default;
 
       const opt = {
-        margin: options.margin || 0,
+        margin: options.margin ?? [10, 0, 10, 0],
         filename,
         image: { type: "jpeg" as const, quality: 0.98 },
         html2canvas: {
@@ -100,7 +100,7 @@ export const usePdfExport = (options: UsePdfExportOptions = {}) => {
           <style>
             @page { 
               size: A4; 
-              margin: 0; 
+              margin: 10mm; 
             }
             body { 
               margin: 0; 

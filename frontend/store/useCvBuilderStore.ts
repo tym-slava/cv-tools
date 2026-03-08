@@ -81,6 +81,16 @@ interface Skill {
   isNew?: boolean;
 }
 
+// Default section titles (used as fallbacks)
+export const DEFAULT_SECTION_TITLES: Record<string, string> = {
+  "personal-information": "Personal Information",
+  "professional-summary": "Professional Summary",
+  prof_experience: "Professional Experience",
+  education: "Education",
+  skills: "Skills",
+  languages: "Languages",
+};
+
 // Main type of CV Builder state
 interface CvBuilderState {
   // Selected template
@@ -91,6 +101,9 @@ interface CvBuilderState {
 
   // Order of sections (IDs in order)
   sectionsOrder: string[];
+
+  // Custom section titles (overrides defaults)
+  sectionTitles: Record<string, string>;
 
   // Personal information
   personalInformation: PersonalInformation;
@@ -150,6 +163,18 @@ interface CvBuilderState {
   reorderSkills: (skills: Skill[]) => void;
   toggleSkillVisibility: (id: string) => void;
 
+  // Section-level enabled/disabled state (controls preview visibility)
+  enabledSections: Record<string, boolean>;
+
+  // Method to update a section title
+  setSectionTitle: (id: string, title: string) => void;
+
+  // Method to toggle section enabled state
+  setSectionEnabled: (id: string, enabled: boolean) => void;
+
+  // Method to clear all data for a specific section (used when section is deleted)
+  clearSectionData: (sectionId: string) => void;
+
   // Method to clear the form
   clearPersonalInformation: () => void;
 
@@ -171,6 +196,15 @@ const initialPersonalInformation: PersonalInformation = {
   profileImagePreview: null,
 };
 
+// Maps section IDs to their corresponding state keys for bulk clearing
+const SECTION_DATA_KEYS: Record<string, keyof CvBuilderState> = {
+  "professional-summary": "professionalSummary",
+  prof_experience: "profExperience",
+  education: "education",
+  skills: "skills",
+  languages: "languages",
+};
+
 // Create the store with persist
 export const useCvBuilderStore = create<CvBuilderState>()(
   persist(
@@ -186,6 +220,14 @@ export const useCvBuilderStore = create<CvBuilderState>()(
         "skills",
         "languages",
       ],
+      sectionTitles: { ...DEFAULT_SECTION_TITLES },
+      enabledSections: {
+        "professional-summary": true,
+        prof_experience: true,
+        education: true,
+        skills: true,
+        languages: true,
+      },
       personalInformation: initialPersonalInformation,
       professionalSummary: [],
       profExperience: [],
@@ -371,6 +413,30 @@ export const useCvBuilderStore = create<CvBuilderState>()(
           ),
         })),
 
+      // Method to update a single section title
+      setSectionTitle: (id, title) =>
+        set((state) => ({
+          sectionTitles: { ...state.sectionTitles, [id]: title },
+        })),
+
+      // Method to toggle section enabled state
+      setSectionEnabled: (id, enabled) =>
+        set((state) => ({
+          enabledSections: { ...state.enabledSections, [id]: enabled },
+        })),
+
+      // Method to clear all data for a specific section when it is deleted
+      clearSectionData: (sectionId) =>
+        set((state) => {
+          const dataKey = SECTION_DATA_KEYS[sectionId];
+
+          if (dataKey && Array.isArray(state[dataKey])) {
+            return { [dataKey]: [] };
+          }
+
+          return {};
+        }),
+
       // Method to clear the form
       clearPersonalInformation: () => set({ personalInformation: initialPersonalInformation }),
 
@@ -383,6 +449,8 @@ export const useCvBuilderStore = create<CvBuilderState>()(
         selectedTemplate: state.selectedTemplate,
         selectedSections: state.selectedSections,
         sectionsOrder: state.sectionsOrder,
+        sectionTitles: state.sectionTitles,
+        enabledSections: state.enabledSections,
         personalInformation: {
           ...state.personalInformation,
           profileImage: null, // File cannot be serialized in localStorage
