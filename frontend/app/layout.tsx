@@ -9,6 +9,7 @@ import { siteConfig } from "@/config/site";
 import { fontSans, fontLogo } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import Footer from "@/common-components/Footer";
+import DevBanner from "@/common-components/DevBanner";
 
 export const metadata: Metadata = {
   title: {
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <div className="relative flex flex-col ">
             <Navbar />
+            <DevBanner />
             <main className="flex-grow">{children}</main>
             <Footer />
           </div>

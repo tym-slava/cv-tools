@@ -60,7 +60,6 @@ function CvSidePreviw({ isOpen, onOpenChange }: CvSidePreviewProps) {
 
   const { exportToPdf, isExporting } = usePdfExport({
     format: "a4",
-    margin: 0,
     scale: 2,
     method: exportMethod,
   });
@@ -120,7 +119,7 @@ function CvSidePreviw({ isOpen, onOpenChange }: CvSidePreviewProps) {
                 {hasData ? (
                   <div
                     id="cv-template-export"
-                    className="w-full shadow-2xl overflow-hidden scale-[0.8] origin-top md:scale-100"
+                    className="w-full shadow-2xl overflow-hidden scale-100 origin-top md:scale-100"
                   >
                     <SelectedTemplateComponent data={store} />
                   </div>

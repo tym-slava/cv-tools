@@ -18,6 +18,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 
 import CommonSwitcher from "@/common-components/CommonSwitcher";
+import CommonDeleteSection from "@/common-components/CommonDeleteSection";
 import CommonTextArea from "@/common-components/CommonTextArea";
 import CommonInfoModalItem from "@/common-components/CommonInfoModalItem";
 import CommonAddButton from "@/common-components/buttons/CommonAddButton";
@@ -108,8 +109,13 @@ const SortableItem: React.FC<SortableItemProps> = ({ id, summary }) => {
 };
 
 const ProfessionalSummary: React.FC = () => {
-  const { professionalSummary, addProfessionalSummary, reorderProfessionalSummary } =
-    useCvBuilderStore();
+  const {
+    professionalSummary,
+    addProfessionalSummary,
+    reorderProfessionalSummary,
+    enabledSections,
+    setSectionEnabled,
+  } = useCvBuilderStore();
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -139,9 +145,12 @@ const ProfessionalSummary: React.FC = () => {
 
   return (
     <div className="professional-summary__component">
+      <CommonDeleteSection sectionId="professional-summary" />
       <CommonSwitcher
         labelText="Enable section"
         className="mb-6"
+        isSelected={enabledSections?.["professional-summary"] !== false}
+        onChange={(enabled) => setSectionEnabled("professional-summary", enabled)}
       />
 
       <DndContext
