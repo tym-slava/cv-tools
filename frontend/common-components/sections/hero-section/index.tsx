@@ -3,7 +3,7 @@ import { title, subtitle } from "@/components/primitives";
 
 function HeroSection() {
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-12 bg-[var(--background)] text-[var(--foreground)]">
+    <section className="flex flex-col items-center justify-center gap-4 py-12 px-4 bg-[var(--background)] text-[var(--foreground)]">
       <div className="container inline-block max-w-xl text-center justify-center">
         <span className={title()}>Make your&nbsp;</span>
         <span className={title({ color: "violet" })}>awesome&nbsp;</span>
