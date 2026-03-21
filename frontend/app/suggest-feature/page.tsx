@@ -69,13 +69,13 @@ export default function SuggestFeaturePage() {
       </div>
 
       {status === "success" && (
-        <div className="w-full max-w-[800px] rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 px-5 py-4 text-green-700 dark:text-green-400 text-sm font-medium">
+        <div role="alert" className="w-full max-w-[800px] rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 px-5 py-4 text-green-700 dark:text-green-400 text-sm font-medium">
           Thank you! Your idea has been submitted.
         </div>
       )}
 
       {status === "error" && (
-        <div className="w-full max-w-[800px] rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-5 py-4 text-red-700 dark:text-red-400 text-sm font-medium">
+        <div role="alert" className="w-full max-w-[800px] rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-5 py-4 text-red-700 dark:text-red-400 text-sm font-medium">
           Something went wrong. Please try again.
         </div>
       )}
@@ -97,6 +97,7 @@ export default function SuggestFeaturePage() {
             labelPlacement="outside"
             variant="bordered"
             classNames={fieldClassNames}
+            isRequired
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -108,6 +109,7 @@ export default function SuggestFeaturePage() {
             labelPlacement="outside"
             variant="bordered"
             classNames={fieldClassNames}
+            isRequired
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -119,6 +121,7 @@ export default function SuggestFeaturePage() {
             variant="bordered"
             minRows={7}
             classNames={fieldClassNames}
+            isRequired
             value={idea}
             onChange={(e) => setIdea(e.target.value)}
           />
