@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
 
   if (!scriptUrl) {
-    return NextResponse.json({ error: "GOOGLE_SCRIPT_URL not configured" }, { status: 500 });
+    return NextResponse.json({ error: "Service not available" }, { status: 500 });
   }
 
   let response: Response;
@@ -43,10 +43,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to submit" }, { status: 500 });
   }
 
-  const data = await response.json();
+  const data: unknown = await response.json();
 
   // This is the real error signal from Apps Script.
-  if (data.result === "error") {
+  if (
+    typeof data === "object" &&
+    data !== null &&
+    (data as { result?: string }).result === "error"
+  ) {
     return NextResponse.json({ error: "Script error" }, { status: 500 });
   }
 
