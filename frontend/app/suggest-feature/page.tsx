@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@heroui/button";
 import { Input, Textarea } from "@heroui/react";
 import { Send } from "lucide-react";
@@ -17,11 +17,43 @@ export default function SuggestFeaturePage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [idea, setIdea] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    return () => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+    };
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Send the data to the server
-    // console.log(name, email, idea);
+    setIsLoading(true);
+    setStatus("idle");
+
+    try {
+      const response = await fetch("/api/suggest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, idea }),
+      });
+
+      if (!response.ok) {
+        setStatus("error");
+        return;
+      }
+
+      setStatus("success");
+      setName("");
+      setEmail("");
+      setIdea("");
+      successTimerRef.current = setTimeout(() => setStatus("idle"), 5000);
+    } catch {
+      setStatus("error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -36,10 +68,19 @@ export default function SuggestFeaturePage() {
         </p>
       </div>
 
-      <form
-        className="w-full"
-        onSubmit={handleSubmit}
-      >
+      {status === "success" && (
+        <div className="w-full max-w-[800px] rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 px-5 py-4 text-green-700 dark:text-green-400 text-sm font-medium">
+          Thank you! Your idea has been submitted.
+        </div>
+      )}
+
+      {status === "error" && (
+        <div className="w-full max-w-[800px] rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-5 py-4 text-red-700 dark:text-red-400 text-sm font-medium">
+          Something went wrong. Please try again.
+        </div>
+      )}
+
+      <form className="w-full" onSubmit={(e) => void handleSubmit(e)}>
         <div
           className="
             w-full max-w-[800px] flex flex-col gap-5 p-8 rounded-xl
@@ -84,9 +125,10 @@ export default function SuggestFeaturePage() {
 
           <Button
             className="w-full rounded-md font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200"
-            endContent={<Send className="w-4 h-4" />}
+            endContent={!isLoading && <Send className="w-4 h-4" />}
             size="lg"
             type="submit"
+            isLoading={isLoading}
           >
             Submit
           </Button>
