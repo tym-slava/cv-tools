@@ -29,6 +29,10 @@ export default function SuggestFeaturePage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (successTimerRef.current) {
+      clearTimeout(successTimerRef.current);
+      successTimerRef.current = null;
+    }
     setIsLoading(true);
     setStatus("idle");
 
@@ -41,6 +45,7 @@ export default function SuggestFeaturePage() {
 
       if (!response.ok) {
         setStatus("error");
+
         return;
       }
 
@@ -69,18 +74,27 @@ export default function SuggestFeaturePage() {
       </div>
 
       {status === "success" && (
-        <div role="alert" className="w-full max-w-[800px] rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 px-5 py-4 text-green-700 dark:text-green-400 text-sm font-medium">
+        <div
+          role="alert"
+          className="w-full max-w-[800px] rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 px-5 py-4 text-green-700 dark:text-green-400 text-sm font-medium"
+        >
           Thank you! Your idea has been submitted.
         </div>
       )}
 
       {status === "error" && (
-        <div role="alert" className="w-full max-w-[800px] rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-5 py-4 text-red-700 dark:text-red-400 text-sm font-medium">
+        <div
+          role="alert"
+          className="w-full max-w-[800px] rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-5 py-4 text-red-700 dark:text-red-400 text-sm font-medium"
+        >
           Something went wrong. Please try again.
         </div>
       )}
 
-      <form className="w-full" onSubmit={(e) => void handleSubmit(e)}>
+      <form
+        className="w-full"
+        onSubmit={(e) => void handleSubmit(e)}
+      >
         <div
           className="
             w-full max-w-[800px] flex flex-col gap-5 p-8 rounded-xl
@@ -91,37 +105,37 @@ export default function SuggestFeaturePage() {
           "
         >
           <Input
+            isRequired
             type="text"
             label="Name"
             placeholder="Your name"
             labelPlacement="outside"
             variant="bordered"
             classNames={fieldClassNames}
-            isRequired
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
           <Input
+            isRequired
             type="email"
             label="Email"
             placeholder="you@example.com"
             labelPlacement="outside"
             variant="bordered"
             classNames={fieldClassNames}
-            isRequired
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
           <Textarea
+            isRequired
             label="Your idea"
             placeholder="Describe the feature you'd like to see..."
             labelPlacement="outside"
             variant="bordered"
             minRows={7}
             classNames={fieldClassNames}
-            isRequired
             value={idea}
             onChange={(e) => setIdea(e.target.value)}
           />
