@@ -8,9 +8,7 @@ import { Send } from "lucide-react";
 import { subtitle, title } from "@/components/primitives";
 
 const fieldClassNames = {
-  label: "font-semibold text-gray-700 dark:text-gray-300",
-  inputWrapper:
-    "rounded-md border-gray-200/80 dark:border-white/10 bg-white/50 dark:bg-white/5 hover:border-blue-400 focus-within:!border-blue-500",
+  inputWrapper: "bg-white/50 dark:bg-white/5",
 };
 
 export default function SuggestFeaturePage() {
@@ -97,7 +95,7 @@ export default function SuggestFeaturePage() {
       >
         <div
           className="
-            w-full max-w-[800px] flex flex-col gap-5 p-8 rounded-xl
+            w-full max-w-[800px] flex flex-col gap-5 p-8 rounded-xl text-left
             bg-white/60 dark:bg-white/5
             border border-gray-200/80 dark:border-white/10
             backdrop-blur-sm
@@ -110,7 +108,6 @@ export default function SuggestFeaturePage() {
             label="Name"
             placeholder="Your name"
             labelPlacement="outside"
-            variant="bordered"
             classNames={fieldClassNames}
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -122,7 +119,6 @@ export default function SuggestFeaturePage() {
             label="Email"
             placeholder="you@example.com"
             labelPlacement="outside"
-            variant="bordered"
             classNames={fieldClassNames}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -133,7 +129,6 @@ export default function SuggestFeaturePage() {
             label="Your idea"
             placeholder="Describe the feature you'd like to see..."
             labelPlacement="outside"
-            variant="bordered"
             minRows={7}
             classNames={fieldClassNames}
             value={idea}
