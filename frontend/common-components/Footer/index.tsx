@@ -57,6 +57,17 @@ const Footer = () => {
           />
         </NextLink>
 
+        {/* Legal links */}
+        <div className="flex gap-4 text-xs text-zinc-400 dark:text-zinc-600">
+          <NextLink href="/terms" className="hover:text-blue-500 transition-colors duration-200">
+            Terms of Service
+          </NextLink>
+          <span>·</span>
+          <NextLink href="/privacy" className="hover:text-blue-500 transition-colors duration-200">
+            Privacy Policy
+          </NextLink>
+        </div>
+
         {/* Copyright */}
         <p className="text-xs text-zinc-400 dark:text-zinc-600">
           © {new Date().getFullYear()} onCV.link — All rights reserved.
