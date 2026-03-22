@@ -23,7 +23,7 @@ interface CvSidePreviewProps {
   onOpenChange: () => void;
 }
 
-function CvSidePreviw({ isOpen, onOpenChange }: CvSidePreviewProps) {
+function CvSidePreview({ isOpen, onOpenChange }: CvSidePreviewProps) {
   const store = useCvBuilderStore();
   const {
     selectedTemplate,
@@ -181,4 +181,4 @@ function CvSidePreviw({ isOpen, onOpenChange }: CvSidePreviewProps) {
   );
 }
 
-export default CvSidePreviw;
+export default CvSidePreview;

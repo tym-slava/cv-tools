@@ -46,8 +46,6 @@ export const usePdfExport = (options: UsePdfExportOptions = {}) => {
         };
 
         await html2pdf().set(opt).from(element).save();
-      } catch (error) {
-        throw error;
       } finally {
         setIsExporting(false);
       }
