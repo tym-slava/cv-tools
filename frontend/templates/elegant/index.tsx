@@ -70,19 +70,6 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
             />
             {visible.map((s: any) => (
               <div key={s.id}>
-                {s.title && (
-                  <p
-                    style={{
-                      fontFamily: lexend,
-                      fontWeight: 600,
-                      fontSize: "13px",
-                      marginBottom: "6px",
-                      color: TEXT,
-                    }}
-                  >
-                    {s.title}
-                  </p>
-                )}
                 <div
                   dangerouslySetInnerHTML={{ __html: s.description }}
                   style={{
@@ -336,13 +323,14 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
 
   return (
     <div
+      className="bg-white p-20 font-serif text-black min-h-[1123px] w-full max-w-[800px] mx-auto shadow-lg"
       style={{
-        backgroundColor: "#ffffff",
-        minHeight: "1123px",
-        width: "100%",
-        maxWidth: "816px",
-        margin: "0 auto",
-        padding: "60px 75px",
+        // backgroundColor: "#ffffff",
+        // minHeight: "1123px",
+        // width: "100%",
+        // maxWidth: "816px",
+        // margin: "0 auto",
+        // padding: "60px 75px",
         color: TEXT,
         fontFamily: jakarta,
         boxSizing: "border-box",
