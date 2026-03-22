@@ -1,13 +1,11 @@
 import React from "react";
 import { Mail, Phone, MapPin, Link } from "lucide-react";
 
+import { formatDateRange } from "@/utils/formatDateRange";
 import { getSortedSections } from "@/utils/getSortedSections";
+import { TemplateData } from "@/types";
 
-interface ModernTemplateProps {
-  data: any; // Using any for now, but should be CvBuilderState
-}
-
-const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
+const ModernTemplate: React.FC<{ data: TemplateData }> = ({ data }) => {
   const {
     personalInformation,
     professionalSummary,
@@ -33,7 +31,7 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       case "professional-summary":
         return (
           enabledSections["professional-summary"] !== false &&
-          professionalSummary.filter((s: any) => s.isVisible !== false).length > 0 && (
+          professionalSummary.filter((s) => s.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-8"
@@ -43,8 +41,8 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
               </div>
               <div className="space-y-4">
                 {professionalSummary
-                  .filter((s: any) => s.isVisible !== false)
-                  .map((s: any) => (
+                  .filter((s) => s.isVisible !== false)
+                  .map((s) => (
                     <div key={s.id}>
                       <div
                         dangerouslySetInnerHTML={{ __html: s.description }}
@@ -60,7 +58,7 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       case "prof_experience":
         return (
           enabledSections["prof_experience"] !== false &&
-          profExperience.filter((exp: any) => exp.isVisible !== false).length > 0 && (
+          profExperience.filter((exp) => exp.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-8"
@@ -70,8 +68,8 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
               </div>
               <div className="space-y-6">
                 {profExperience
-                  .filter((exp: any) => exp.isVisible !== false)
-                  .map((exp: any) => (
+                  .filter((exp) => exp.isVisible !== false)
+                  .map((exp) => (
                     <div
                       key={exp.id}
                       className="relative mt-4"
@@ -81,7 +79,7 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
                           <span className="font-bold">{exp.jobTitle}</span>, {exp.employer}
                         </div>
                         <div className="text-sm text-right">
-                          {exp.startDate} – {exp.isCurrentlyWorking ? "Present" : exp.endDate}
+                          {formatDateRange(exp.startDate, exp.endDate, exp.isCurrentlyWorking)}
                         </div>
                       </div>
                       {exp.location && (
@@ -101,7 +99,7 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       case "education":
         return (
           enabledSections["education"] !== false &&
-          education.filter((edu: any) => edu.isVisible !== false).length > 0 && (
+          education.filter((edu) => edu.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-8"
@@ -111,8 +109,8 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
               </div>
               <div className="space-y-4">
                 {education
-                  .filter((edu: any) => edu.isVisible !== false)
-                  .map((edu: any) => (
+                  .filter((edu) => edu.isVisible !== false)
+                  .map((edu) => (
                     <div
                       key={edu.id}
                       className="flex justify-between items-start"
@@ -122,7 +120,7 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
                         {edu.location}
                       </div>
                       <div className="text-sm text-right">
-                        {edu.startDate} – {edu.isCurrentlyStudying ? "Present" : edu.endDate}
+                        {formatDateRange(edu.startDate, edu.endDate, edu.isCurrentlyStudying)}
                       </div>
                     </div>
                   ))}
@@ -134,7 +132,7 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       case "skills":
         return (
           enabledSections["skills"] !== false &&
-          skills.filter((s: any) => s.isVisible !== false).length > 0 && (
+          skills.filter((s) => s.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-8"
@@ -144,8 +142,8 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
               </div>
               <div className="grid grid-cols-2 gap-x-8 gap-y-4">
                 {skills
-                  .filter((s: any) => s.isVisible !== false)
-                  .map((s: any) => (
+                  .filter((s) => s.isVisible !== false)
+                  .map((s) => (
                     <div
                       key={s.id}
                       className="text-sm"
@@ -163,7 +161,7 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
       case "languages":
         return (
           enabledSections["languages"] !== false &&
-          languages.filter((l: any) => l.isVisible !== false).length > 0 && (
+          languages.filter((l) => l.isVisible !== false).length > 0 && (
             <section
               key={sectionId}
               className="mb-8"
@@ -173,8 +171,8 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({ data }) => {
               </div>
               <div className="grid grid-cols-2 gap-x-8 gap-y-2">
                 {languages
-                  .filter((l: any) => l.isVisible !== false)
-                  .map((l: any) => (
+                  .filter((l) => l.isVisible !== false)
+                  .map((l) => (
                     <div
                       key={l.id}
                       className="text-sm"

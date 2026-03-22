@@ -1,14 +1,12 @@
 import React from "react";
 
+import { formatDateRange } from "@/utils/formatDateRange";
 import { getSortedSections } from "@/utils/getSortedSections";
-
-interface StandartTemplateProps {
-  data: any;
-}
+import { TemplateData } from "@/types";
 
 const BLUE = "#2563EB";
 
-const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
+const StandartTemplate: React.FC<{ data: TemplateData }> = ({ data }) => {
   const {
     personalInformation,
     professionalSummary,
@@ -54,7 +52,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
   const renderSection = (sectionId: string) => {
     switch (sectionId) {
       case "professional-summary": {
-        const visible = professionalSummary.filter((s: any) => s.isVisible !== false);
+        const visible = professionalSummary.filter((s) => s.isVisible !== false);
 
         if (enabledSections["professional-summary"] === false || visible.length === 0) return null;
 
@@ -64,7 +62,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
             style={{ marginBottom: "20px" }}
           >
             <SectionHeading title={getSectionTitle("professional-summary", "Summary")} />
-            {visible.map((s: any) => (
+            {visible.map((s) => (
               <div
                 key={s.id}
                 dangerouslySetInnerHTML={{ __html: s.description }}
@@ -80,7 +78,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
       }
 
       case "prof_experience": {
-        const visible = profExperience.filter((e: any) => e.isVisible !== false);
+        const visible = profExperience.filter((e) => e.isVisible !== false);
 
         if (enabledSections["prof_experience"] === false || visible.length === 0) return null;
 
@@ -91,7 +89,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
           >
             <SectionHeading title={getSectionTitle("prof_experience", "Professional Experience")} />
             <div>
-              {visible.map((exp: any, i: number) => (
+              {visible.map((exp, i) => (
                 <div
                   key={exp.id}
                   style={{ marginTop: i > 0 ? "16px" : undefined }}
@@ -117,7 +115,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
                         marginLeft: "12px",
                       }}
                     >
-                      {exp.startDate} — {exp.isCurrentlyWorking ? "Present" : exp.endDate}
+                      {formatDateRange(exp.startDate, exp.endDate, exp.isCurrentlyWorking, "—")}
                     </span>
                   </div>
                   {exp.location && (
@@ -141,7 +139,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
       }
 
       case "education": {
-        const visible = education.filter((e: any) => e.isVisible !== false);
+        const visible = education.filter((e) => e.isVisible !== false);
 
         if (enabledSections["education"] === false || visible.length === 0) return null;
 
@@ -152,7 +150,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
           >
             <SectionHeading title={getSectionTitle("education", "Education")} />
             <div>
-              {visible.map((item: any, i: number) => (
+              {visible.map((item, i) => (
                 <div
                   key={item.id}
                   style={{ marginTop: i > 0 ? "12px" : undefined }}
@@ -178,11 +176,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
                         marginLeft: "12px",
                       }}
                     >
-                      {item.isCurrentlyStudying
-                        ? `${item.startDate} — Present`
-                        : item.endDate
-                          ? `${item.startDate} — ${item.endDate}`
-                          : item.startDate}
+                      {formatDateRange(item.startDate, item.endDate, item.isCurrentlyStudying, "—")}
                     </span>
                   </div>
                   {item.location && (
@@ -209,7 +203,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
       }
 
       case "skills": {
-        const visible = skills.filter((s: any) => s.isVisible !== false);
+        const visible = skills.filter((s) => s.isVisible !== false);
 
         if (enabledSections["skills"] === false || visible.length === 0) return null;
 
@@ -226,7 +220,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
                 gap: "4px 24px",
               }}
             >
-              {visible.map((item: any) => (
+              {visible.map((item) => (
                 <span
                   key={item.id}
                   style={{ fontSize: "13px", color: "#333" }}
@@ -241,7 +235,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
       }
 
       case "languages": {
-        const visible = languages.filter((l: any) => l.isVisible !== false);
+        const visible = languages.filter((l) => l.isVisible !== false);
 
         if (enabledSections["languages"] === false || visible.length === 0) return null;
 
@@ -252,7 +246,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
           >
             <SectionHeading title={getSectionTitle("languages", "Languages")} />
             <div style={{ fontSize: "13px", color: "#333" }}>
-              {visible.map((item: any, i: number) => (
+              {visible.map((item, i) => (
                 <span key={item.id}>
                   {item.language}
                   {item.level ? ` (${item.level})` : ""}
@@ -276,7 +270,6 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
         fontFamily: "'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
         color: "#111",
         boxSizing: "border-box",
-        // padding: "40px 48px",
       }}
     >
       {/* ── Header ─────────────────────────────────────────── */}

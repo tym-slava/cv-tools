@@ -1,16 +1,14 @@
 import React from "react";
 import { Link, Mail, MapPin, Phone } from "lucide-react";
 
+import { formatDateRange } from "@/utils/formatDateRange";
 import { getSortedSections } from "@/utils/getSortedSections";
-
-interface ElegantTemplateProps {
-  data: any;
-}
+import { TemplateData } from "@/types";
 
 const PRIMARY = "#2b3896";
 const TEXT = "#1b1c1a";
 
-const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
+const ElegantTemplate: React.FC<{ data: TemplateData }> = ({ data }) => {
   const {
     personalInformation,
     professionalSummary,
@@ -56,7 +54,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
   const renderSection = (sectionId: string) => {
     switch (sectionId) {
       case "professional-summary": {
-        const visible = professionalSummary.filter((s: any) => s.isVisible !== false);
+        const visible = professionalSummary.filter((s) => s.isVisible !== false);
 
         if (enabledSections["professional-summary"] === false || visible.length === 0) return null;
 
@@ -68,7 +66,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
             <SectionHeading
               title={getSectionTitle("professional-summary", "Professional Summary")}
             />
-            {visible.map((s: any) => (
+            {visible.map((s) => (
               <div key={s.id}>
                 <div
                   dangerouslySetInnerHTML={{ __html: s.description }}
@@ -86,7 +84,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
       }
 
       case "prof_experience": {
-        const visible = profExperience.filter((e: any) => e.isVisible !== false);
+        const visible = profExperience.filter((e) => e.isVisible !== false);
 
         if (enabledSections["prof_experience"] === false || visible.length === 0) return null;
 
@@ -97,7 +95,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
           >
             <SectionHeading title={getSectionTitle("prof_experience", "Experience")} />
             <div>
-              {visible.map((exp: any, i: number) => (
+              {visible.map((exp, i) => (
                 <div
                   key={exp.id}
                   style={{ marginTop: i > 0 ? "20px" : undefined }}
@@ -131,7 +129,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
                         marginLeft: "12px",
                       }}
                     >
-                      {exp.startDate} – {exp.isCurrentlyWorking ? "Present" : exp.endDate}
+                      {formatDateRange(exp.startDate, exp.endDate, exp.isCurrentlyWorking)}
                     </span>
                   </div>
                   {/* Company + Location */}
@@ -165,7 +163,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
       }
 
       case "education": {
-        const visible = education.filter((e: any) => e.isVisible !== false);
+        const visible = education.filter((e) => e.isVisible !== false);
 
         if (enabledSections["education"] === false || visible.length === 0) return null;
 
@@ -176,7 +174,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
           >
             <SectionHeading title={getSectionTitle("education", "Education")} />
             <div>
-              {visible.map((item: any, i: number) => (
+              {visible.map((item, i) => (
                 <div
                   key={item.id}
                   style={{
@@ -233,9 +231,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
                       marginLeft: "16px",
                     }}
                   >
-                    {item.isCurrentlyStudying
-                      ? `${item.startDate} – Present`
-                      : item.endDate || item.startDate}
+                    {formatDateRange(item.startDate, item.endDate, item.isCurrentlyStudying)}
                   </span>
                 </div>
               ))}
@@ -245,7 +241,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
       }
 
       case "skills": {
-        const visible = skills.filter((s: any) => s.isVisible !== false);
+        const visible = skills.filter((s) => s.isVisible !== false);
 
         if (enabledSections["skills"] === false || visible.length === 0) return null;
 
@@ -256,7 +252,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
           >
             <SectionHeading title={getSectionTitle("skills", "Technical & Creative Skills")} />
             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-              {visible.map((item: any) => (
+              {visible.map((item) => (
                 <span
                   key={item.id}
                   style={{
@@ -279,7 +275,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
       }
 
       case "languages": {
-        const visible = languages.filter((l: any) => l.isVisible !== false);
+        const visible = languages.filter((l) => l.isVisible !== false);
 
         if (enabledSections["languages"] === false || visible.length === 0) return null;
 
@@ -290,7 +286,7 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
           >
             <SectionHeading title={getSectionTitle("languages", "Languages")} />
             <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 32px" }}>
-              {visible.map((item: any) => (
+              {visible.map((item) => (
                 <div
                   key={item.id}
                   style={{
@@ -328,12 +324,6 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
     <div
       className="bg-white p-20 font-serif text-black min-h-[1123px] w-full max-w-[800px] mx-auto shadow-lg"
       style={{
-        // backgroundColor: "#ffffff",
-        // minHeight: "1123px",
-        // width: "100%",
-        // maxWidth: "816px",
-        // margin: "0 auto",
-        // padding: "60px 75px",
         color: TEXT,
         fontFamily: jakarta,
         boxSizing: "border-box",

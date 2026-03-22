@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 // TODO: need to replace all the types to another separate file
 
 // 🔧 Profile image types
-interface ProfileImagePreview {
+export interface ProfileImagePreview {
   name: string;
   size: number;
   type: string;
@@ -12,7 +12,7 @@ interface ProfileImagePreview {
 }
 
 // Personal Information type
-interface PersonalInformation {
+export interface PersonalInformation {
   firstName: string;
   lastName: string;
   jobTitle: string;
@@ -62,7 +62,7 @@ export interface Education {
 }
 
 // Language type
-interface Language {
+export interface Language {
   id: string;
   language: string;
   level: string;
@@ -72,7 +72,7 @@ interface Language {
 }
 
 // Skill type
-interface Skill {
+export interface Skill {
   id: string;
   skill: string;
   level: string;
