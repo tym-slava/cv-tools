@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@heroui/button";
 import { Input, Textarea } from "@heroui/react";
-import { Send } from "lucide-react";
+import { CheckCircle2, Send } from "lucide-react";
 
 import { subtitle, title } from "@/components/primitives";
 import { isValidEmail } from "@/utils/validation";
@@ -102,13 +102,13 @@ export default function SuggestFeaturePage() {
       </div>
 
       <form
-        className="w-full"
         noValidate
+        className="w-full"
         onSubmit={(e) => void handleSubmit(e)}
       >
         <div
           className="
-            w-full max-w-[800px] flex flex-col gap-5 p-8 rounded-xl text-left
+            w-full max-w-[800px] min-h-[520px] flex flex-col gap-5 p-8 rounded-xl text-left
             bg-white/60 dark:bg-white/5
             border border-gray-200/80 dark:border-white/10
             backdrop-blur-sm
@@ -118,9 +118,24 @@ export default function SuggestFeaturePage() {
           {status === "success" ? (
             <div
               role="alert"
-              className="rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 px-5 py-4 text-green-700 dark:text-green-400 text-sm font-medium text-center"
+              className="flex-1 flex flex-col items-center justify-center gap-5 text-center py-8"
             >
-              🎉 Thank you! Your idea has been submitted.
+              <div className="relative">
+                <div className="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900/60 flex items-center justify-center">
+                  <CheckCircle2
+                    className="w-10 h-10 text-blue-500 dark:text-blue-400"
+                    strokeWidth={1.5}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 max-w-xs">
+                <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
+                  Thank you for your idea!
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                  We read every suggestion and use them to shape what we build next.
+                </p>
+              </div>
             </div>
           ) : (
             <>
