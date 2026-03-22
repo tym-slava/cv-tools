@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 
 import { title, subtitle } from "@/components/primitives";
 import AddCvContent from "@/app/cv-builder/AddCvContent";
-import CvSidePreviw from "@/app/cv-builder/CvSidePreviw";
+import CvSidePreview from "@/app/cv-builder/CvSidePreview";
 
 // Import SectionsList without SSR to avoid hydration mismatch with dnd-kit
 const SectionsList = dynamic(() => import("@/app/cv-builder/SectionsList"), {
@@ -45,7 +45,7 @@ export default function CvBuilder() {
         <span className="hidden sm:inline">Preview CV</span>
         <span className="sm:hidden">Preview</span>
       </Button>
-      <CvSidePreviw
+      <CvSidePreview
         isOpen={isOpen}
         onOpenChange={onOpenChange}
       />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Drawer,
   DrawerContent,
@@ -10,8 +10,6 @@ import {
   Button,
   Card,
   Skeleton,
-  Select,
-  SelectItem,
 } from "@heroui/react";
 import { Download } from "lucide-react";
 
@@ -19,32 +17,13 @@ import { useCvBuilderStore } from "@/store/useCvBuilderStore";
 import { templates } from "@/templates";
 import TemplateSelector from "@/common-components/TemplateSelector/TemplateSelector";
 import { usePdfExport } from "@/hooks/usePdfExport";
-import { PdfExportMethod } from "@/types";
 
 interface CvSidePreviewProps {
   isOpen: boolean;
   onOpenChange: () => void;
 }
 
-const exportMethods = [
-  {
-    value: PdfExportMethod.HTML2PDF,
-    label: "html2pdf.js",
-    description: "Standard method (canvas → PDF)",
-  },
-  {
-    value: PdfExportMethod.JSPDF,
-    label: "jsPDF + html2canvas",
-    description: "Direct PDF control",
-  },
-  {
-    value: PdfExportMethod.NATIVE_PRINT,
-    label: "Native Print",
-    description: "Best text quality",
-  },
-];
-
-function CvSidePreviw({ isOpen, onOpenChange }: CvSidePreviewProps) {
+function CvSidePreview({ isOpen, onOpenChange }: CvSidePreviewProps) {
   const store = useCvBuilderStore();
   const {
     selectedTemplate,
@@ -56,12 +35,9 @@ function CvSidePreviw({ isOpen, onOpenChange }: CvSidePreviewProps) {
     languages,
   } = store;
 
-  const [exportMethod, setExportMethod] = useState<PdfExportMethod>(PdfExportMethod.HTML2PDF);
-
   const { exportToPdf, isExporting } = usePdfExport({
     format: "a4",
     scale: 2,
-    method: exportMethod,
   });
 
   const hasData =
@@ -179,35 +155,7 @@ function CvSidePreviw({ isOpen, onOpenChange }: CvSidePreviewProps) {
               </div>
             </DrawerBody>
             <DrawerFooter className="bg-white border-t">
-              <div className="flex items-center gap-3 w-full">
-                <Select
-                  label="Export method"
-                  placeholder="Select method"
-                  selectedKeys={[exportMethod]}
-                  className="max-w-xs"
-                  size="sm"
-                  classNames={{
-                    trigger: "min-h-[40px] h-[40px]",
-                    label: "text-xs",
-                  }}
-                  onChange={(e) => setExportMethod(e.target.value as PdfExportMethod)}
-                >
-                  {exportMethods.map((method) => (
-                    <SelectItem
-                      key={method.value}
-                      description={method.description}
-                      classNames={{
-                        base: "py-2",
-                        title: "text-sm font-medium",
-                      }}
-                    >
-                      {method.label}
-                    </SelectItem>
-                  ))}
-                </Select>
-
-                <div className="flex-1" />
-
+              <div className="flex items-center justify-end gap-3 w-full">
                 <Button
                   color="danger"
                   variant="light"
@@ -233,4 +181,4 @@ function CvSidePreviw({ isOpen, onOpenChange }: CvSidePreviewProps) {
   );
 }
 
-export default CvSidePreviw;
+export default CvSidePreview;
