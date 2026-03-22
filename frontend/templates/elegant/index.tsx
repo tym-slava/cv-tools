@@ -7,6 +7,9 @@ interface ElegantTemplateProps {
   data: any;
 }
 
+const PRIMARY = "#2b3896";
+const TEXT = "#1b1c1a";
+
 const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
   const {
     personalInformation,
@@ -24,186 +27,307 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
     .filter(Boolean)
     .join(", ");
 
-  // Get sections in the user-defined order
   const sortedSections = getSortedSections(data);
-
-  // Helper to get custom or default section heading
   const getSectionTitle = (id: string, fallback: string) => sectionTitles[id] || fallback;
 
-  const SectionTitle: React.FC<{ title: string }> = ({ title }) => (
-    <div className="bg-gray-100 text-center font-semibold uppercase tracking-widest text-sm py-1 rounded-md border border-gray-200">
+  const lexend = "var(--font-lexend, 'Lexend', sans-serif)";
+  const jakarta = "var(--font-jakarta, 'Plus Jakarta Sans', sans-serif)";
+
+  const SectionHeading = ({ title }: { title: string }) => (
+    <h2
+      style={{
+        fontFamily: lexend,
+        color: PRIMARY,
+        fontSize: "10.5px",
+        fontWeight: 700,
+        letterSpacing: "0.2em",
+        textTransform: "uppercase",
+        marginBottom: "16px",
+      }}
+    >
       {title}
-    </div>
+    </h2>
   );
 
-  const ContactItem: React.FC<{ icon: React.ReactNode; text: string }> = ({ icon, text }) => (
-    <div className="flex items-center gap-2 text-sm text-gray-700">
-      <span className="text-gray-600">{icon}</span>
-      <span>{text}</span>
-    </div>
+  const Divider = () => (
+    <div style={{ height: "1px", backgroundColor: `${TEXT}1a`, margin: "0 0 28px 0" }} />
   );
 
-  // Render section by ID
   const renderSection = (sectionId: string) => {
     switch (sectionId) {
-      case "professional-summary":
+      case "professional-summary": {
+        const visible = professionalSummary.filter((s: any) => s.isVisible !== false);
+
+        if (enabledSections["professional-summary"] === false || visible.length === 0) return null;
+
         return (
-          enabledSections["professional-summary"] !== false &&
-          professionalSummary.filter((summary: any) => summary.isVisible !== false).length > 0 && (
-            <section
-              key={sectionId}
-              className="space-y-3"
-            >
-              <SectionTitle title={getSectionTitle("professional-summary", "Profile")} />
-              <div className="space-y-3">
-                {professionalSummary
-                  .filter((summary: any) => summary.isVisible !== false)
-                  .map((summary: any) => (
-                    <div key={summary.id}>
-                      {summary.title && <p className="font-semibold mb-1">{summary.title}</p>}
+          <section
+            key={sectionId}
+            style={{ marginBottom: "28px" }}
+          >
+            <SectionHeading
+              title={getSectionTitle("professional-summary", "Professional Summary")}
+            />
+            {visible.map((s: any) => (
+              <div key={s.id}>
+                {s.title && (
+                  <p
+                    style={{
+                      fontFamily: lexend,
+                      fontWeight: 600,
+                      fontSize: "13px",
+                      marginBottom: "6px",
+                      color: TEXT,
+                    }}
+                  >
+                    {s.title}
+                  </p>
+                )}
+                <div
+                  dangerouslySetInnerHTML={{ __html: s.description }}
+                  style={{
+                    fontFamily: jakarta,
+                    fontSize: "13px",
+                    lineHeight: 1.7,
+                    color: `${TEXT}e6`,
+                  }}
+                />
+              </div>
+            ))}
+          </section>
+        );
+      }
+
+      case "prof_experience": {
+        const visible = profExperience.filter((e: any) => e.isVisible !== false);
+
+        if (enabledSections["prof_experience"] === false || visible.length === 0) return null;
+
+        return (
+          <section
+            key={sectionId}
+            style={{ marginBottom: "28px" }}
+          >
+            <SectionHeading title={getSectionTitle("prof_experience", "Experience")} />
+            <div>
+              {visible.map((exp: any, i: number) => (
+                <div key={exp.id} style={{ marginTop: i > 0 ? "20px" : undefined }}>
+                  {/* Title + Date row */}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "baseline",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    <h3
+                      style={{
+                        fontFamily: lexend,
+                        fontWeight: 700,
+                        fontSize: "15px",
+                        color: TEXT,
+                      }}
+                    >
+                      {exp.jobTitle}
+                    </h3>
+                    <span
+                      style={{
+                        fontFamily: jakarta,
+                        fontSize: "11.5px",
+                        fontWeight: 600,
+                        color: `${TEXT}80`,
+                        flexShrink: 0,
+                        marginLeft: "12px",
+                      }}
+                    >
+                      {exp.startDate} – {exp.isCurrentlyWorking ? "Present" : exp.endDate}
+                    </span>
+                  </div>
+                  {/* Company + Location */}
+                  <p
+                    style={{
+                      fontFamily: lexend,
+                      fontSize: "12.5px",
+                      fontWeight: 700,
+                      color: PRIMARY,
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {exp.employer}
+                    {exp.location ? ` • ${exp.location}` : ""}
+                  </p>
+                  {/* Description */}
+                  <div
+                    dangerouslySetInnerHTML={{ __html: exp.description }}
+                    style={{
+                      fontFamily: jakarta,
+                      fontSize: "12.5px",
+                      lineHeight: 1.65,
+                      color: `${TEXT}e6`,
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      case "education": {
+        const visible = education.filter((e: any) => e.isVisible !== false);
+
+        if (enabledSections["education"] === false || visible.length === 0) return null;
+
+        return (
+          <section
+            key={sectionId}
+            style={{ marginBottom: "28px" }}
+          >
+            <SectionHeading title={getSectionTitle("education", "Education")} />
+            <div>
+              {visible.map((item: any, i: number) => (
+                <div
+                  key={item.id}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                    marginTop: i > 0 ? "12px" : undefined,
+                  }}
+                >
+                  <div>
+                    <p
+                      style={{
+                        fontFamily: lexend,
+                        fontWeight: 700,
+                        fontSize: "13.5px",
+                        color: TEXT,
+                        marginBottom: "2px",
+                      }}
+                    >
+                      {item.degree}
+                      {item.specialty ? ` in ${item.specialty}` : ""}
+                    </p>
+                    {item.location && (
+                      <p
+                        style={{
+                          fontFamily: lexend,
+                          fontSize: "12.5px",
+                          fontWeight: 700,
+                          color: PRIMARY,
+                        }}
+                      >
+                        {item.location}
+                      </p>
+                    )}
+                    {item.description && (
                       <div
-                        dangerouslySetInnerHTML={{ __html: summary.description }}
-                        className="text-sm leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: item.description }}
+                        style={{
+                          fontFamily: jakarta,
+                          fontSize: "12px",
+                          color: `${TEXT}99`,
+                          marginTop: "4px",
+                        }}
                       />
-                    </div>
-                  ))}
-              </div>
-            </section>
-          )
+                    )}
+                  </div>
+                  <span
+                    style={{
+                      fontFamily: jakarta,
+                      fontSize: "11.5px",
+                      fontWeight: 600,
+                      color: `${TEXT}80`,
+                      flexShrink: 0,
+                      marginLeft: "16px",
+                    }}
+                  >
+                    {item.isCurrentlyStudying
+                      ? `${item.startDate} – Present`
+                      : item.endDate || item.startDate}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
         );
+      }
 
-      case "prof_experience":
-        return (
-          enabledSections["prof_experience"] !== false &&
-          profExperience.filter((experience: any) => experience.isVisible !== false).length > 0 && (
-            <section
-              key={sectionId}
-              className="space-y-4"
-            >
-              <SectionTitle title={getSectionTitle("prof_experience", "Professional Experience")} />
-              <div className="space-y-6">
-                {profExperience
-                  .filter((experience: any) => experience.isVisible !== false)
-                  .map((experience: any) => (
-                    <div
-                      key={experience.id}
-                      className="grid grid-cols-[140px,1fr] gap-6"
-                    >
-                      <div className="text-sm text-gray-700">
-                        <p className="font-medium">
-                          {experience.startDate} —{" "}
-                          {experience.isCurrentlyWorking ? "Present" : experience.endDate}
-                        </p>
-                        {experience.location && (
-                          <p className="mt-1 text-gray-600">{experience.location}</p>
-                        )}
-                      </div>
-                      <div>
-                        <p className="font-semibold">{experience.employer}</p>
-                        <p className="text-sm text-gray-700">{experience.jobTitle}</p>
-                        <div
-                          dangerouslySetInnerHTML={{ __html: experience.description }}
-                          className="mt-2 text-sm leading-relaxed"
-                        />
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </section>
-          )
-        );
+      case "skills": {
+        const visible = skills.filter((s: any) => s.isVisible !== false);
 
-      case "education":
-        return (
-          enabledSections["education"] !== false &&
-          education.filter((item: any) => item.isVisible !== false).length > 0 && (
-            <section
-              key={sectionId}
-              className="space-y-4"
-            >
-              <SectionTitle title={getSectionTitle("education", "Education")} />
-              <div className="space-y-4">
-                {education
-                  .filter((item: any) => item.isVisible !== false)
-                  .map((item: any) => (
-                    <div
-                      key={item.id}
-                      className="grid grid-cols-[140px,1fr] gap-6"
-                    >
-                      <div className="text-sm text-gray-700">
-                        <p className="font-medium">
-                          {item.startDate} — {item.isCurrentlyStudying ? "Present" : item.endDate}
-                        </p>
-                        {item.location && <p className="mt-1 text-gray-600">{item.location}</p>}
-                      </div>
-                      <div>
-                        <p className="font-semibold">{item.degree}</p>
-                        <p className="text-sm text-gray-700">{item.specialty}</p>
-                        {item.description && (
-                          <div
-                            dangerouslySetInnerHTML={{ __html: item.description }}
-                            className="text-sm text-gray-700 mt-2"
-                          />
-                        )}
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </section>
-          )
-        );
+        if (enabledSections["skills"] === false || visible.length === 0) return null;
 
-      case "skills":
         return (
-          enabledSections["skills"] !== false &&
-          skills.filter((item: any) => item.isVisible !== false).length > 0 && (
-            <section
-              key={sectionId}
-              className="space-y-4"
-            >
-              <SectionTitle title={getSectionTitle("skills", "Technologies")} />
-              <div className="grid grid-cols-3 gap-x-8 gap-y-2">
-                {skills
-                  .filter((item: any) => item.isVisible !== false)
-                  .map((item: any) => (
-                    <div
-                      key={item.id}
-                      className="text-sm"
-                    >
-                      <span className="font-medium">{item.skill}</span>
-                      {item.information && <span> — {item.information}</span>}
-                    </div>
-                  ))}
-              </div>
-            </section>
-          )
+          <section
+            key={sectionId}
+            style={{ marginBottom: "28px" }}
+          >
+            <SectionHeading title={getSectionTitle("skills", "Technical & Creative Skills")} />
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+              {visible.map((item: any) => (
+                <span
+                  key={item.id}
+                  style={{
+                    fontFamily: jakarta,
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    padding: "3px 10px",
+                    borderRadius: "9999px",
+                    backgroundColor: "#f4f4f0",
+                    color: TEXT,
+                  }}
+                >
+                  {item.skill}
+                  {item.information ? ` — ${item.information}` : ""}
+                </span>
+              ))}
+            </div>
+          </section>
         );
+      }
 
-      case "languages":
+      case "languages": {
+        const visible = languages.filter((l: any) => l.isVisible !== false);
+
+        if (enabledSections["languages"] === false || visible.length === 0) return null;
+
         return (
-          enabledSections["languages"] !== false &&
-          languages.filter((item: any) => item.isVisible !== false).length > 0 && (
-            <section
-              key={sectionId}
-              className="space-y-4"
-            >
-              <SectionTitle title={getSectionTitle("languages", "Languages")} />
-              <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-                {languages
-                  .filter((item: any) => item.isVisible !== false)
-                  .map((item: any) => (
-                    <div
-                      key={item.id}
-                      className="text-sm"
-                    >
-                      <span className="font-medium">{item.language}</span>
-                      {item.level && <span> — {item.level}</span>}
-                    </div>
-                  ))}
-              </div>
-            </section>
-          )
+          <section
+            key={sectionId}
+            style={{ marginBottom: "28px" }}
+          >
+            <SectionHeading title={getSectionTitle("languages", "Languages")} />
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 32px" }}>
+              {visible.map((item: any) => (
+                <div
+                  key={item.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "7px",
+                    fontFamily: jakarta,
+                    fontSize: "12.5px",
+                  }}
+                >
+                  <span
+                    style={{
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "9999px",
+                      backgroundColor: PRIMARY,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <span style={{ fontWeight: 600, color: TEXT }}>{item.language}</span>
+                  {item.level && <span style={{ color: `${TEXT}80` }}>— {item.level}</span>}
+                </div>
+              ))}
+            </div>
+          </section>
         );
+      }
 
       default:
         return null;
@@ -211,45 +335,111 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
   };
 
   return (
-    <div className="bg-white font-serif text-black min-h-[1123px] w-full max-w-[800px] mx-auto shadow-lg p-10">
-      <header className="bg-gray-200 px-10 py-8">
-        <h1 className="text-4xl font-bold">{fullName || "Your Name"}</h1>
-        <p className="text-xl text-gray-700 mt-1">{personalInformation.jobTitle || "Job Title"}</p>
+    <div
+      style={{
+        backgroundColor: "#ffffff",
+        minHeight: "1123px",
+        width: "100%",
+        maxWidth: "816px",
+        margin: "0 auto",
+        padding: "60px 75px",
+        color: TEXT,
+        fontFamily: jakarta,
+        boxSizing: "border-box",
+      }}
+    >
+      {/* ── Header ─────────────────────────────────────────── */}
+      <header style={{ marginBottom: "28px", textAlign: "center" }}>
+        <h1
+          style={{
+            fontFamily: lexend,
+            fontWeight: 800,
+            fontSize: "2.7rem",
+            letterSpacing: "-0.03em",
+            lineHeight: 1.1,
+            color: TEXT,
+            marginBottom: "10px",
+          }}
+        >
+          {fullName || "Your Name"}
+        </h1>
 
-        <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
+        {personalInformation.jobTitle && (
+          <p
+            style={{
+              fontFamily: lexend,
+              fontSize: "15px",
+              fontWeight: 500,
+              color: PRIMARY,
+              letterSpacing: "0.01em",
+              marginBottom: "18px",
+            }}
+          >
+            {personalInformation.jobTitle}
+          </p>
+        )}
+
+        {/* Contact items */}
+        <div className="flex flex-wrap justify-center gap-x-5 gap-y-1.5">
           {personalInformation.email && (
-            <ContactItem
-              icon={<Mail size={16} />}
-              text={personalInformation.email}
-            />
+            <div
+              className="flex items-center gap-[5px]"
+              style={{ fontSize: "12px", fontFamily: jakarta, color: `${TEXT}cc` }}
+            >
+              <Mail
+                size={14}
+                color={PRIMARY}
+                style={{ marginTop: "2px" }}
+              />
+              <span>{personalInformation.email}</span>
+            </div>
           )}
           {personalInformation.phone && (
-            <ContactItem
-              icon={<Phone size={16} />}
-              text={personalInformation.phone}
-            />
-          )}
-          {location && (
-            <ContactItem
-              icon={<MapPin size={16} />}
-              text={location}
-            />
+            <div
+              className="flex items-center gap-[5px]"
+              style={{ fontSize: "12px", fontFamily: jakarta, color: `${TEXT}cc` }}
+            >
+              <Phone
+                size={14}
+                color={PRIMARY}
+              />
+              <span>{personalInformation.phone}</span>
+            </div>
           )}
           {personalInformation.website && (
-            <ContactItem
-              icon={<Link size={16} />}
-              text={personalInformation.website}
-            />
+            <div
+              className="flex items-center gap-[5px]"
+              style={{ fontSize: "12px", fontFamily: jakarta, color: `${TEXT}cc` }}
+            >
+              <Link
+                size={14}
+                color={PRIMARY}
+              />
+              <span>{personalInformation.website}</span>
+            </div>
+          )}
+          {location && (
+            <div
+              className="flex items-center gap-[5px]"
+              style={{ fontSize: "12px", fontFamily: jakarta, color: `${TEXT}cc` }}
+            >
+              <MapPin
+                size={14}
+                color={PRIMARY}
+                style={{ marginTop: "1px" }}
+              />
+              <span>{location}</span>
+            </div>
           )}
         </div>
       </header>
 
-      <div className="px-10 py-8 space-y-8">
-        {/* Dynamic sections in user-defined order */}
-        {sortedSections
-          .filter((section) => section.id !== "personal-information")
-          .map((section) => renderSection(section.id))}
-      </div>
+      <Divider />
+
+      {/* ── Sections ───────────────────────────────────────── */}
+      {sortedSections
+        .filter((s) => s.id !== "personal-information")
+        .map((s) => renderSection(s.id))}
     </div>
   );
 };
