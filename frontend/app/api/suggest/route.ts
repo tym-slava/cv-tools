@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { isValidEmail } from "@/utils/validation";
+
 export async function POST(request: Request) {
   let body: { name?: string; email?: string; idea?: string };
 
@@ -11,8 +13,12 @@ export async function POST(request: Request) {
 
   const { name, email, idea } = body;
 
-  if (!name?.trim() || !email?.trim() || !idea?.trim()) {
+  if (!name?.trim() || !idea?.trim()) {
     return NextResponse.json({ error: "All fields are required" }, { status: 400 });
+  }
+
+  if (!email || !isValidEmail(email)) {
+    return NextResponse.json({ error: "A valid email is required" }, { status: 400 });
   }
 
   const scriptUrl = process.env.GOOGLE_SCRIPT_URL;

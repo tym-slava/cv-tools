@@ -158,8 +158,8 @@ export default function SuggestFeaturePage() {
                 isInvalid={!!nameError}
                 errorMessage={nameError}
                 value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
+                onValueChange={(value) => {
+                  setName(value);
                   if (nameError) setNameError("");
                 }}
               />
@@ -174,8 +174,8 @@ export default function SuggestFeaturePage() {
                 isInvalid={!!emailError}
                 errorMessage={emailError}
                 value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
+                onValueChange={(value) => {
+                  setEmail(value);
                   if (emailError) setEmailError("");
                 }}
               />
@@ -190,8 +190,8 @@ export default function SuggestFeaturePage() {
                 isInvalid={!!ideaError}
                 errorMessage={ideaError}
                 value={idea}
-                onChange={(e) => {
-                  setIdea(e.target.value);
+                onValueChange={(value) => {
+                  setIdea(value);
                   if (ideaError) setIdeaError("");
                 }}
               />

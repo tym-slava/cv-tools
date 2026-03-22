@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Input,
@@ -24,21 +24,18 @@ export function SubscribeModal({ isOpen, onOpenChange }: SubscribeModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [emailError, setEmailError] = useState("");
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleClose = (open: boolean) => {
-    if (!open) {
-      // Reset form when modal closes (with a small delay so animation finishes)
-      setTimeout(() => {
+  useEffect(() => {
+    if (!isOpen) {
+      const timer = setTimeout(() => {
         setName("");
         setEmail("");
         setStatus("idle");
         setEmailError("");
-        if (timerRef.current) clearTimeout(timerRef.current);
       }, 300);
+
+      return () => clearTimeout(timer);
     }
-    onOpenChange(open);
-  };
+  }, [isOpen]);
 
   const handleSubmit = async () => {
     if (!isValidEmail(email)) {
@@ -82,7 +79,7 @@ export function SubscribeModal({ isOpen, onOpenChange }: SubscribeModalProps) {
         base: "mx-4",
         backdrop: "bg-black/50 backdrop-blur-sm",
       }}
-      onOpenChange={handleClose}
+      onOpenChange={onOpenChange}
     >
       <ModalContent>
         {(onClose) => (
