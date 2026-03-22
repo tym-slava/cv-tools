@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@heroui/button";
 import { Input, Textarea } from "@heroui/react";
-import { Send } from "lucide-react";
+import { CheckCircle2, Send } from "lucide-react";
 
 import { subtitle, title } from "@/components/primitives";
+import { isValidEmail } from "@/utils/validation";
 
 const fieldClassNames = {
   inputWrapper: "bg-white/50 dark:bg-white/5",
@@ -17,6 +18,9 @@ export default function SuggestFeaturePage() {
   const [idea, setIdea] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [ideaError, setIdeaError] = useState("");
   const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -31,6 +35,32 @@ export default function SuggestFeaturePage() {
       clearTimeout(successTimerRef.current);
       successTimerRef.current = null;
     }
+
+    let hasError = false;
+
+    if (!name.trim()) {
+      setNameError("Please enter your name.");
+      hasError = true;
+    } else {
+      setNameError("");
+    }
+
+    if (!isValidEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      hasError = true;
+    } else {
+      setEmailError("");
+    }
+
+    if (!idea.trim()) {
+      setIdeaError("Please describe your idea.");
+      hasError = true;
+    } else {
+      setIdeaError("");
+    }
+
+    if (hasError) return;
+
     setIsLoading(true);
     setStatus("idle");
 
@@ -71,79 +101,112 @@ export default function SuggestFeaturePage() {
         </p>
       </div>
 
-      {status === "success" && (
-        <div
-          role="alert"
-          className="w-full max-w-[800px] rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 px-5 py-4 text-green-700 dark:text-green-400 text-sm font-medium"
-        >
-          Thank you! Your idea has been submitted.
-        </div>
-      )}
-
-      {status === "error" && (
-        <div
-          role="alert"
-          className="w-full max-w-[800px] rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-5 py-4 text-red-700 dark:text-red-400 text-sm font-medium"
-        >
-          Something went wrong. Please try again.
-        </div>
-      )}
-
       <form
+        noValidate
         className="w-full"
         onSubmit={(e) => void handleSubmit(e)}
       >
         <div
           className="
-            w-full max-w-[800px] flex flex-col gap-5 p-8 rounded-xl text-left
+            w-full max-w-[800px] min-h-[520px] flex flex-col gap-5 p-8 rounded-xl text-left
             bg-white/60 dark:bg-white/5
             border border-gray-200/80 dark:border-white/10
             backdrop-blur-sm
             shadow-sm
           "
         >
-          <Input
-            isRequired
-            type="text"
-            label="Name"
-            placeholder="Your name"
-            labelPlacement="outside"
-            classNames={fieldClassNames}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          {status === "success" ? (
+            <div
+              role="alert"
+              className="flex-1 flex flex-col items-center justify-center gap-5 text-center py-8"
+            >
+              <div className="relative">
+                <div className="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900/60 flex items-center justify-center">
+                  <CheckCircle2
+                    className="w-10 h-10 text-blue-500 dark:text-blue-400"
+                    strokeWidth={1.5}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 max-w-xs">
+                <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
+                  Thank you for your idea!
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                  We read every suggestion and use them to shape what we build next.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <>
+              {status === "error" && (
+                <div
+                  role="alert"
+                  className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-4 py-3 text-red-700 dark:text-red-400 text-sm font-medium"
+                >
+                  Something went wrong. Please try again.
+                </div>
+              )}
 
-          <Input
-            isRequired
-            type="email"
-            label="Email"
-            placeholder="you@example.com"
-            labelPlacement="outside"
-            classNames={fieldClassNames}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+              <Input
+                isRequired
+                type="text"
+                label="Name"
+                placeholder="Your name"
+                labelPlacement="outside"
+                classNames={fieldClassNames}
+                isInvalid={!!nameError}
+                errorMessage={nameError}
+                value={name}
+                onValueChange={(value) => {
+                  setName(value);
+                  if (nameError) setNameError("");
+                }}
+              />
 
-          <Textarea
-            isRequired
-            label="Your idea"
-            placeholder="Describe the feature you'd like to see..."
-            labelPlacement="outside"
-            minRows={7}
-            classNames={fieldClassNames}
-            value={idea}
-            onChange={(e) => setIdea(e.target.value)}
-          />
+              <Input
+                isRequired
+                type="email"
+                label="Email"
+                placeholder="you@example.com"
+                labelPlacement="outside"
+                classNames={fieldClassNames}
+                isInvalid={!!emailError}
+                errorMessage={emailError}
+                value={email}
+                onValueChange={(value) => {
+                  setEmail(value);
+                  if (emailError) setEmailError("");
+                }}
+              />
 
-          <Button
-            className="w-full rounded-md font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200"
-            endContent={!isLoading && <Send className="w-4 h-4" />}
-            size="lg"
-            type="submit"
-            isLoading={isLoading}
-          >
-            Submit
-          </Button>
+              <Textarea
+                isRequired
+                label="Your idea"
+                placeholder="Describe the feature you'd like to see..."
+                labelPlacement="outside"
+                minRows={7}
+                classNames={fieldClassNames}
+                isInvalid={!!ideaError}
+                errorMessage={ideaError}
+                value={idea}
+                onValueChange={(value) => {
+                  setIdea(value);
+                  if (ideaError) setIdeaError("");
+                }}
+              />
+
+              <Button
+                className="w-full rounded-md font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200"
+                endContent={!isLoading && <Send className="w-4 h-4" />}
+                size="lg"
+                type="submit"
+                isLoading={isLoading}
+              >
+                Submit
+              </Button>
+            </>
+          )}
         </div>
       </form>
     </section>
