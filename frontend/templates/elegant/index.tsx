@@ -98,7 +98,10 @@ const ElegantTemplate: React.FC<ElegantTemplateProps> = ({ data }) => {
             <SectionHeading title={getSectionTitle("prof_experience", "Experience")} />
             <div>
               {visible.map((exp: any, i: number) => (
-                <div key={exp.id} style={{ marginTop: i > 0 ? "20px" : undefined }}>
+                <div
+                  key={exp.id}
+                  style={{ marginTop: i > 0 ? "20px" : undefined }}
+                >
                   {/* Title + Date row */}
                   <div
                     style={{

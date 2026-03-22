@@ -59,7 +59,10 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
         if (enabledSections["professional-summary"] === false || visible.length === 0) return null;
 
         return (
-          <section key={sectionId} style={{ marginBottom: "20px" }}>
+          <section
+            key={sectionId}
+            style={{ marginBottom: "20px" }}
+          >
             <SectionHeading title={getSectionTitle("professional-summary", "Summary")} />
             {visible.map((s: any) => (
               <div
@@ -82,11 +85,17 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
         if (enabledSections["prof_experience"] === false || visible.length === 0) return null;
 
         return (
-          <section key={sectionId} style={{ marginBottom: "20px" }}>
+          <section
+            key={sectionId}
+            style={{ marginBottom: "20px" }}
+          >
             <SectionHeading title={getSectionTitle("prof_experience", "Professional Experience")} />
             <div>
               {visible.map((exp: any, i: number) => (
-                <div key={exp.id} style={{ marginTop: i > 0 ? "16px" : undefined }}>
+                <div
+                  key={exp.id}
+                  style={{ marginTop: i > 0 ? "16px" : undefined }}
+                >
                   <div
                     style={{
                       display: "flex",
@@ -137,11 +146,17 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
         if (enabledSections["education"] === false || visible.length === 0) return null;
 
         return (
-          <section key={sectionId} style={{ marginBottom: "20px" }}>
+          <section
+            key={sectionId}
+            style={{ marginBottom: "20px" }}
+          >
             <SectionHeading title={getSectionTitle("education", "Education")} />
             <div>
               {visible.map((item: any, i: number) => (
-                <div key={item.id} style={{ marginTop: i > 0 ? "12px" : undefined }}>
+                <div
+                  key={item.id}
+                  style={{ marginTop: i > 0 ? "12px" : undefined }}
+                >
                   <div
                     style={{
                       display: "flex",
@@ -199,7 +214,10 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
         if (enabledSections["skills"] === false || visible.length === 0) return null;
 
         return (
-          <section key={sectionId} style={{ marginBottom: "20px" }}>
+          <section
+            key={sectionId}
+            style={{ marginBottom: "20px" }}
+          >
             <SectionHeading title={getSectionTitle("skills", "Technical Skills")} />
             <div
               style={{
@@ -209,7 +227,10 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
               }}
             >
               {visible.map((item: any) => (
-                <span key={item.id} style={{ fontSize: "13px", color: "#333" }}>
+                <span
+                  key={item.id}
+                  style={{ fontSize: "13px", color: "#333" }}
+                >
                   {item.skill}
                   {item.information ? ` — ${item.information}` : ""}
                 </span>
@@ -225,7 +246,10 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
         if (enabledSections["languages"] === false || visible.length === 0) return null;
 
         return (
-          <section key={sectionId} style={{ marginBottom: "20px" }}>
+          <section
+            key={sectionId}
+            style={{ marginBottom: "20px" }}
+          >
             <SectionHeading title={getSectionTitle("languages", "Languages")} />
             <div style={{ fontSize: "13px", color: "#333" }}>
               {visible.map((item: any, i: number) => (
@@ -247,12 +271,12 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
 
   return (
     <div
-      className="bg-white min-h-[1123px] w-full max-w-[800px] mx-auto shadow-lg"
+      className="bg-white min-h-[1123px] w-full max-w-[800px] mx-auto shadow-lg p-20"
       style={{
         fontFamily: "'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
         color: "#111",
         boxSizing: "border-box",
-        padding: "40px 48px",
+        // padding: "40px 48px",
       }}
     >
       {/* ── Header ─────────────────────────────────────────── */}
@@ -296,9 +320,7 @@ const StandartTemplate: React.FC<StandartTemplateProps> = ({ data }) => {
           )}
 
           {contactParts.length > 0 && (
-            <p style={{ fontSize: "12.5px", color: "#555" }}>
-              {contactParts.join(" | ")}
-            </p>
+            <p style={{ fontSize: "12.5px", color: "#555" }}>{contactParts.join(" | ")}</p>
           )}
         </div>
 
