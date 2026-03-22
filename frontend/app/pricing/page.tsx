@@ -1,4 +1,5 @@
 "use client";
+
 import {
   CloudDownload,
   CreditCard,
@@ -7,6 +8,9 @@ import {
   Sparkles,
   type LucideIcon,
 } from "lucide-react";
+import { Button, useDisclosure } from "@heroui/react";
+
+import { SubscribeModal } from "./SubscribeModal";
 
 import GetStartedBtn from "@/common-components/buttons/get-started";
 import { subtitle, title } from "@/components/primitives";
@@ -39,6 +43,8 @@ const features: { icon: LucideIcon; title: string; description: string }[] = [
 ];
 
 export default function PricingPage() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   return (
     <div className="text-gray-900 dark:text-gray-100">
       {/* ── Hero ─────────────────────────────────────────────────── */}
@@ -124,6 +130,42 @@ export default function PricingPage() {
           </p>
         </div>
       </section>
+
+      {/* ── Subscribe CTA ────────────────────────────────────────── */}
+      <section className="px-6 py-16 md:py-20 text-center">
+        <div className="mx-auto max-w-xl">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-50 mb-4">
+            Be the first to know
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-2">
+            We&apos;re working hard on the next version of onCV.link.
+          </p>
+          <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-8">
+            Early subscribers get first access, special offers, and a say in what gets built next.
+          </p>
+          <Button
+            className="
+              rounded-xl font-semibold text-base md:text-lg
+              bg-blue-600 hover:bg-blue-700
+              dark:bg-blue-500 dark:hover:bg-blue-400
+              text-white dark:text-slate-900
+              px-8 py-6
+              transition-all duration-200
+              hover:shadow-lg hover:shadow-blue-500/30 dark:hover:shadow-blue-400/20
+              hover:scale-[1.03] active:scale-[0.98]
+            "
+            size="lg"
+            onPress={onOpen}
+          >
+            Notify me when it&apos;s ready
+          </Button>
+        </div>
+      </section>
+
+      <SubscribeModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      />
     </div>
   );
 }
